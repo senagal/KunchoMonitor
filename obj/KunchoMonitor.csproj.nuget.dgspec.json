@@ -1,31 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\RYZEN3\\Desktop\\KunchoMonitor\\KunchoMonitor\\KunchoMonitor.csproj": {}
+    "D:\\Marti\\4thYear\\KunchoMonitor\\KunchoMonitor.csproj": {}
   },
   "projects": {
-    "C:\\Users\\RYZEN3\\Desktop\\KunchoMonitor\\KunchoMonitor\\KunchoMonitor.csproj": {
+    "D:\\Marti\\4thYear\\KunchoMonitor\\KunchoMonitor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\RYZEN3\\Desktop\\KunchoMonitor\\KunchoMonitor\\KunchoMonitor.csproj",
+        "projectUniqueName": "D:\\Marti\\4thYear\\KunchoMonitor\\KunchoMonitor.csproj",
         "projectName": "KunchoMonitor",
-        "projectPath": "C:\\Users\\RYZEN3\\Desktop\\KunchoMonitor\\KunchoMonitor\\KunchoMonitor.csproj",
-        "packagesPath": "C:\\Users\\RYZEN3\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\RYZEN3\\Desktop\\KunchoMonitor\\KunchoMonitor\\obj\\",
+        "projectPath": "D:\\Marti\\4thYear\\KunchoMonitor\\KunchoMonitor.csproj",
+        "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
+        "outputPath": "D:\\Marti\\4thYear\\KunchoMonitor\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\RYZEN3\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\hp\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -38,13 +32,7 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.100"
+        }
       },
       "frameworks": {
         "net6.0": {
@@ -70,24 +58,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[6.0.36, 6.0.36]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[6.0.36, 6.0.36]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[6.0.36, 6.0.36]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[6.0.36, 6.0.36]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -96,7 +66,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.428\\RuntimeIdentifierGraph.json"
         }
       }
     }

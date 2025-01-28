@@ -1,12 +1,11 @@
 {
   "Version": 1,
-  "Hash": "5T+S+53kUXSCW3bcDT6+hNVbMnXV/Qvc1hrKoGWDXFw=",
+  "Hash": "iVvLnWQylQ7IZaKeSo+3sKGXB54e0IXxQ4ZFi5TD34Q=",
   "Source": "KunchoMonitor",
   "BasePath": "_content/KunchoMonitor",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": [],
-  "Endpoints": []
+  "Assets": []
 }

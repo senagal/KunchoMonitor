@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using content.Models;
 using content.Services;
+using activity.Services;
 
 namespace content.Controllers
 {
@@ -9,10 +10,12 @@ namespace content.Controllers
     public class ContentController : ControllerBase
     {
         private readonly IContentServices _contentService;
+        private readonly IActivityServices _activityService;
 
-        public ContentController(IContentServices contentService)
+        public ContentController(IContentServices contentService, IActivityServices activityService)
         {
             _contentService = contentService;
+            _activityService = activityService;
         }
 
         [HttpPost]
@@ -30,11 +33,23 @@ namespace content.Controllers
         public async Task<ActionResult<Content>> GetContentById(int id)
         {
             var content = await _contentService.GetContentById(id);
-            if (content == null)
-            {
-                return NotFound($"Content not found.");
-            }
-            return Ok(content);
+
+    if (content == null)
+    {
+        return NotFound($"Content with ID {id} not found.");
+    }
+
+    try
+    {
+        var newActivity = await _activityService.AddActivity(id);
+        Console.WriteLine($"Activity logged for Content ID: {id} at {newActivity.AccessedOn}");
+    }
+    catch (Exception ex)
+    {
+        Console.Error.WriteLine($"Failed to log activity: {ex.Message}");
+    }
+
+    return Ok(content);
         }
     }
 }

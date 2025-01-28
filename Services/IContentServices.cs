@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using content.Models;
+using activity.Models;
 
 namespace content.Services
 {
@@ -9,5 +10,9 @@ namespace content.Services
         Task<Content> GetContentById(int Id);
         Task<Content> AddContent(Content newContent);
         
+    }
+    public interface IActivityServices
+    {
+        Task<Activity> AddActivity(int ContentId);
     }
 }
