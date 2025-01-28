@@ -42,11 +42,11 @@ namespace content.Controllers
     try
     {
         var newActivity = await _activityService.AddActivity(id);
-        Console.WriteLine($"Activity logged for Content ID: {id} at {newActivity.AccessedOn}");
     }
     catch (Exception ex)
     {
-        Console.Error.WriteLine($"Failed to log activity: {ex.Message}");
+        var errorMessage = $"Failed to log activity for Content ID {id}: {ex.Message}";
+        return StatusCode(500, new { message = errorMessage });
     }
 
     return Ok(content);
