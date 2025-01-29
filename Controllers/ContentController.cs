@@ -26,30 +26,56 @@ namespace content.Controllers
                 return BadRequest("You entered empty values. Try again.");
             }
             var content = await _contentService.AddContent(newContent);
-            return CreatedAtAction(nameof(GetContentById), new { id = content.Id },content);
-
+            return CreatedAtAction(nameof(GetContentById), new { id = content.Id }, content);
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Content>> GetContentById(int id)
         {
             var content = await _contentService.GetContentById(id);
 
-    if (content == null)
-    {
-        return NotFound($"Content with ID {id} not found.");
-    }
+            if (content == null)
+            {
+                return NotFound($"Content with ID {id} not found.");
+            }
 
-    try
-    {
-        var newActivity = await _activityService.AddActivity(id);
-    }
-    catch (Exception ex)
-    {
-        var errorMessage = $"Failed to log activity for Content ID {id}: {ex.Message}";
-        return StatusCode(500, new { message = errorMessage });
-    }
+            try
+            {
+                var newActivity = await _activityService.AddActivity(id);
+            }
+            catch (Exception ex)
+            {
+                var errorMessage = $"Failed to log activity for Content ID {id}: {ex.Message}";
+                return StatusCode(500, new { message = errorMessage });
+            }
 
-    return Ok(content);
+            return Ok(content);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Content>> UpdateContent(int id, Content updatedContent)
+        {
+            var content = await _contentService.UpdateContent(id, updatedContent);
+
+            if (content == null)
+            {
+                return NotFound($"Content with ID {id} not found.");
+            }
+
+            return Ok(content);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteContent(int id)
+        {
+            var isDeleted = await _contentService.DeleteContent(id);
+
+            if (!isDeleted)
+            {
+                return NotFound($"Content with ID {id} not found.");
+            }
+
+            return NoContent();  // 204 status code for successful deletion
         }
     }
 }

@@ -73,3 +73,42 @@ C:\Users\RYZEN3\Downloads\Telegram Desktop\KunchoMonitor\KunchoMonitor\obj\Debug
 C:\Users\RYZEN3\Downloads\Telegram Desktop\KunchoMonitor\KunchoMonitor\obj\Debug\net6.0\KunchoMonitor.pdb
 C:\Users\RYZEN3\Downloads\Telegram Desktop\KunchoMonitor\KunchoMonitor\obj\Debug\net6.0\KunchoMonitor.genruntimeconfig.cache
 C:\Users\RYZEN3\Downloads\Telegram Desktop\KunchoMonitor\KunchoMonitor\obj\Debug\net6.0\ref\KunchoMonitor.dll
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\bin\Debug\net6.0\appsettings.Development.json
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\bin\Debug\net6.0\appsettings.json
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\bin\Debug\net6.0\KunchoMonitor.exe
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\bin\Debug\net6.0\KunchoMonitor.deps.json
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\bin\Debug\net6.0\KunchoMonitor.runtimeconfig.json
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\bin\Debug\net6.0\KunchoMonitor.dll
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\bin\Debug\net6.0\KunchoMonitor.pdb
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\bin\Debug\net6.0\DnsClient.dll
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\bin\Debug\net6.0\Microsoft.OpenApi.dll
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\bin\Debug\net6.0\MongoDB.Bson.dll
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\bin\Debug\net6.0\MongoDB.Driver.dll
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\bin\Debug\net6.0\SharpCompress.dll
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\bin\Debug\net6.0\Snappier.dll
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\bin\Debug\net6.0\ZstdSharp.dll
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\obj\Debug\net6.0\KunchoMonitor.csproj.AssemblyReference.cache
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\obj\Debug\net6.0\KunchoMonitor.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\obj\Debug\net6.0\KunchoMonitor.AssemblyInfoInputs.cache
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\obj\Debug\net6.0\KunchoMonitor.AssemblyInfo.cs
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\obj\Debug\net6.0\KunchoMonitor.csproj.CoreCompileInputs.cache
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\obj\Debug\net6.0\KunchoMonitor.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\obj\Debug\net6.0\KunchoMonitor.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\obj\Debug\net6.0\KunchoMonitor.sourcelink.json
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\obj\Debug\net6.0\staticwebassets.build.json
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\obj\Debug\net6.0\staticwebassets.development.json
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\obj\Debug\net6.0\staticwebassets\msbuild.KunchoMonitor.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\obj\Debug\net6.0\staticwebassets\msbuild.build.KunchoMonitor.props
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.KunchoMonitor.props
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.KunchoMonitor.props
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\obj\Debug\net6.0\staticwebassets.pack.json
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\obj\Debug\net6.0\scopedcss\bundle\KunchoMonitor.styles.css
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\obj\Debug\net6.0\KunchoMo.A31FB790.Up2Date
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\obj\Debug\net6.0\KunchoMonitor.dll
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\obj\Debug\net6.0\refint\KunchoMonitor.dll
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\obj\Debug\net6.0\KunchoMonitor.pdb
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\obj\Debug\net6.0\KunchoMonitor.genruntimeconfig.cache
+C:\Users\HP\Desktop\School\Elective\KunchoMonitor\obj\Debug\net6.0\ref\KunchoMonitor.dll
