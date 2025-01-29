@@ -1,8 +1,7 @@
-# KunchoMonitor
-An activity monitoring service for a kids entertainment platform.
 
 
-### **📌 KunchoMonitor - Activity Monitoring for Kuncho**  
+
+# ** KunchoMonitor - Activity Monitoring for Kuncho**  
 
 ![KunchoMonitor Banner](https://via.placeholder.com/1000x300?text=KunchoMonitor)  
 
