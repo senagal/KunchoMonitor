@@ -29,41 +29,34 @@ namespace content.Controllers
             return CreatedAtAction(nameof(GetContentById), new { id = content.Id }, content);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Content>> GetContentById(int id)
-        {
-            var content = await _contentService.GetContentById(id);
+     [HttpGet("{id}")]
+public async Task<ActionResult<Content>> GetContentById(int id)
+{
+    // Input validation
+    if (id <= 0)
+    {
+        return BadRequest("Invalid ID. ID must be a positive integer.");
+    }
 
-            if (content == null)
-            {
-                return NotFound($"Content with ID {id} not found.");
-            }
+    var content = await _contentService.GetContentById(id);
 
-            try
-            {
-                var newActivity = await _activityService.AddActivity(id);
-            }
-            catch (Exception ex)
-            {
-                var errorMessage = $"Failed to log activity for Content ID {id}: {ex.Message}";
-                return StatusCode(500, new { message = errorMessage });
-            }
+    if (content == null)
+    {
+        return NotFound($"Content with ID {id} not found.");
+    }
 
-            return Ok(content);
-        }
+    try
+    {
+        var newActivity = await _activityService.AddActivity(id);
+    }
+    catch (Exception ex)
+    {
+        var errorMessage = $"Failed to log activity for Content ID {id}: {ex.Message}";
+        return StatusCode(500, new { message = errorMessage });
+    }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Content>> UpdateContent(int id, Content updatedContent)
-        {
-            var content = await _contentService.UpdateContent(id, updatedContent);
-
-            if (content == null)
-            {
-                return NotFound($"Content with ID {id} not found.");
-            }
-
-            return Ok(content);
-        }
+    return Ok(content);
+}
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteContent(int id)
