@@ -1,13 +1,13 @@
 
 
 
-# ** KunchoMonitor - Activity Monitoring for Kuncho**  
+# KunchoMonitor - Activity Monitoring for Kuncho
 
 ![KunchoMonitor Banner](https://via.placeholder.com/1000x300?text=KunchoMonitor)  
 
 **KunchoMonitor** is an **activity monitoring service** designed for the **Kuncho** kids' entertainment platform. It helps track, log, and manage user interactions, ensuring a safe and engaging experience for children.  
 
----
+
 
 ## **🚀 Features**  
 ✅ Monitors and logs user activity in real-time  
@@ -16,7 +16,7 @@
 ✅ RESTful API for easy integration with Kuncho  
 ✅ Built with .NET and MongoDB  
 
----
+
 
 ## **🛠️ Tech Stack**  
 - **Backend:** .NET Core / ASP.NET Web API  
@@ -25,7 +25,7 @@
 - **Logging:** Serilog / Application Insights (if applicable)  
 - **Containerization (optional):** Docker  
 
----
+
 
 ## **📦 Installation & Setup**  
 
@@ -74,7 +74,7 @@ The API will be available at `http://localhost:5000`.
 
 🔹 More API endpoints and request/response examples can be found in the [API Documentation](#) (link if available).  
 
----
+
 
 ## **🧪 Running Tests**  
 Run unit tests to ensure everything works properly:  
@@ -82,7 +82,7 @@ Run unit tests to ensure everything works properly:
 dotnet test
 ```
 
----
+
 
 ## **👥 Contributing**  
 We welcome contributions! To contribute:  
@@ -92,7 +92,7 @@ We welcome contributions! To contribute:
 4. Push to the branch (`git push origin feature-name`)  
 5. Open a **Pull Request**  
 
----
+
 
 ## **📄 License**  
 This project is licensed under the **MIT License**. See the `LICENSE` file for more details.  
