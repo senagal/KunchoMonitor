@@ -7,6 +7,12 @@ namespace content.Services
 {
         public interface IContentServices
         {
+            Task<List<Content>> SearchAndFilterWithPagination(
+                string? query,
+                int? id,
+                int page,
+                int pageSize);
+            Task<List<Content>> SearchAndFilterContent(SearchFilterCriteria criteria);
             Task<Content> GetContentById(int id);
             Task<Content> AddContent(Content newContent);
             Task<Content> UpdateContent(int id, Content updatedContent);

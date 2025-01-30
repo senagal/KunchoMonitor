@@ -2,11 +2,13 @@ using Microsoft.AspNetCore.Mvc;
 using content.Models;
 using content.Services;
 using activity.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace content.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class ContentController : ControllerBase
     {
         private readonly IContentServices _contentService;
@@ -26,37 +28,38 @@ namespace content.Controllers
                 return BadRequest("You entered empty values. Try again.");
             }
             var content = await _contentService.AddContent(newContent);
-            return CreatedAtAction(nameof(GetContentById), new { id = content.Id }, content);
+            return CreatedAtAction(nameof(GetContentById), new { id = content.Id },content);
+
         }
 
      [HttpGet("{id}")]
-public async Task<ActionResult<Content>> GetContentById(int id)
-{
-    // Input validation
-    if (id <= 0)
-    {
-        return BadRequest("Invalid ID. ID must be a positive integer.");
-    }
+        public async Task<ActionResult<Content>> GetContentById(int id)
+        {
+            // Input validation
+            if (id <= 0)
+            {
+                return BadRequest("Invalid ID. ID must be a positive integer.");
+            }
 
-    var content = await _contentService.GetContentById(id);
+            var content = await _contentService.GetContentById(id);
 
-    if (content == null)
-    {
-        return NotFound($"Content with ID {id} not found.");
-    }
+            if (content == null)
+            {
+                return NotFound($"Content with ID {id} not found.");
+            }
 
-    try
-    {
-        var newActivity = await _activityService.AddActivity(id);
-    }
-    catch (Exception ex)
-    {
-        var errorMessage = $"Failed to log activity for Content ID {id}: {ex.Message}";
-        return StatusCode(500, new { message = errorMessage });
-    }
+            try
+            {
+                var newActivity = await _activityService.AddActivity(id);
+            }
+            catch (Exception ex)
+            {
+                var errorMessage = $"Failed to log activity for Content ID {id}: {ex.Message}";
+                return StatusCode(500, new { message = errorMessage });
+            }
 
-    return Ok(content);
-}
+            return Ok(content);
+        }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteContent(int id)
@@ -70,5 +73,24 @@ public async Task<ActionResult<Content>> GetContentById(int id)
 
             return NoContent();  
         }
+
+        [HttpGet("search")]
+        public async Task<ActionResult<List<Content>>> SearchAndFilterContent(
+        [FromQuery] string? query,    
+        [FromQuery] int? id,          
+        [FromQuery] int page = 1,     
+        [FromQuery] int pageSize = 10) 
+            {
+                
+                var contents = await _contentService.SearchAndFilterWithPagination(query, id, page, pageSize);
+
+                if (contents == null || contents.Count == 0)
+                {
+                    return NotFound("No matching content found.");
+                }
+
+                return Ok(contents);
+            }
+
     }
 }
