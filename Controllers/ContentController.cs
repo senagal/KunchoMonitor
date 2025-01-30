@@ -68,7 +68,7 @@ public async Task<ActionResult<Content>> GetContentById(int id)
                 return NotFound($"Content with ID {id} not found.");
             }
 
-            return NoContent();  // 204 status code for successful deletion
+            return NoContent();  
         }
     }
 }

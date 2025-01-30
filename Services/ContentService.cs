@@ -28,20 +28,19 @@ namespace content.Services
         }
 
         public async Task<Content> UpdateContent(int id, Content updatedContent)
-{
-    var existingContent = await _contentCollection.Find(p => p.Id == id).FirstOrDefaultAsync();
-    if (existingContent == null)
-        return null;
+        {
+            var existingContent = await _contentCollection.Find(p => p.Id == id).FirstOrDefaultAsync();
+            if (existingContent == null)
+                return null;
 
-    // Update the properties you have in the Content model
-    existingContent.Title = updatedContent.Title; 
-    // You can add more properties that exist in your model here
+            existingContent.Title = updatedContent.Title; 
+        
 
-    var filter = Builders<Content>.Filter.Eq(p => p.Id, id);
-    var updateResult = await _contentCollection.ReplaceOneAsync(filter, existingContent);
+            var filter = Builders<Content>.Filter.Eq(p => p.Id, id);
+            var updateResult = await _contentCollection.ReplaceOneAsync(filter, existingContent);
 
-    return updateResult.IsAcknowledged ? existingContent : null;
-}
+            return updateResult.IsAcknowledged ? existingContent : null;
+        }
 
 
         public async Task<bool> DeleteContent(int id)
