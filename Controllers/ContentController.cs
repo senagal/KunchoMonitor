@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace content.Controllers
 {
     /// <summary>
-    /// Controller responsible for managing content-related operations.
+    /// Controller responsible for managing content-related operations such as adding, updating, deleting, and retrieving content.
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
@@ -32,9 +32,9 @@ namespace content.Controllers
         /// Adds new content to the system.
         /// </summary>
         /// <param name="newContent">The content to add.</param>
-        /// <returns>The newly created content.</returns>
+        /// <returns>The newly created content, or a bad request if validation fails.</returns>
         [HttpPost]
-           public async Task<ActionResult> AddContent(Content newContent)
+        public async Task<ActionResult> AddContent(Content newContent)
         {
             if (newContent == null)
             {
@@ -92,11 +92,11 @@ namespace content.Controllers
         }
 
         /// <summary>
-        /// Deletes the content with the specified ID.
+        /// Updates the content with the specified ID.
         /// </summary>
-        /// <param name="id">The unique identifier of the content to delete.</param>
-        /// <returns>No content response if deletion is successful, or NotFound if content doesn't exist.</returns>
-        
+        /// <param name="id">The unique identifier of the content to update.</param>
+        /// <param name="updatedContent">The updated content.</param>
+        /// <returns>The updated content, or NotFound if the content doesn't exist.</returns>
         [HttpPut("{id}")]
         public async Task<ActionResult<Content>> UpdateContent(int id, Content updatedContent)
         {
@@ -109,7 +109,12 @@ namespace content.Controllers
 
             return Ok(content);
         }
-        
+
+        /// <summary>
+        /// Deletes the content with the specified ID.
+        /// </summary>
+        /// <param name="id">The unique identifier of the content to delete.</param>
+        /// <returns>No content response if deletion is successful, or NotFound if content doesn't exist.</returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteContent(int id)
         {
