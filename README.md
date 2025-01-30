@@ -5,16 +5,17 @@
 
 ![KunchoMonitor Banner](https://via.placeholder.com/1000x300?text=KunchoMonitor)  
 
-**KunchoMonitor** is an **activity monitoring service** designed for the **Kuncho** kids' entertainment platform. It helps track, log, and manage user interactions, ensuring a safe and engaging experience for children.  
+**KunchoMonitor** is an **activity monitoring service** designed for the **Kuncho** kids' entertainment platform. It helps users interact with contents using REST methods and tracks everytime a content is retrieved.
 
 
 
 ## **🚀 Features**  
-✅ Monitors and logs user activity in real-time  
-✅ Provides analytics on children's engagement  
+✅ Logs an activity everytime a content is accessed
 ✅ Secure data storage and retrieval  
 ✅ RESTful API for easy integration with Kuncho  
-✅ Built with .NET and MongoDB  
+✅ Built with .NET and MongoDB
+✅ Searching functionality for better data filtering  
+✅ Pagination for searching to improve efficiency and performance  
 
 
 
@@ -22,7 +23,6 @@
 - **Backend:** .NET Core / ASP.NET Web API  
 - **Database:** MongoDB  
 - **Authentication:** JWT-based authentication  
-- **Logging:** Serilog / Application Insights (if applicable)  
 - **Containerization (optional):** Docker  
 
 
