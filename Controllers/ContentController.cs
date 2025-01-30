@@ -34,12 +34,24 @@ namespace content.Controllers
         /// <param name="newContent">The content to add.</param>
         /// <returns>The newly created content.</returns>
         [HttpPost]
-        public async Task<ActionResult> AddContent(Content newContent)
+           public async Task<ActionResult> AddContent(Content newContent)
         {
             if (newContent == null)
             {
                 return BadRequest("You entered empty values. Try again.");
             }
+
+            if (!newContent.Id.HasValue)
+            {
+                return BadRequest("Content ID is required.");
+            }
+
+            var existingContent = await _contentService.GetContentById(newContent.Id.Value);
+            if (existingContent != null)
+            {
+                return Conflict(new { message = "ID already used. Please use a different ID." });
+            }
+
             var content = await _contentService.AddContent(newContent);
             return CreatedAtAction(nameof(GetContentById), new { id = content.Id }, content);
         }
