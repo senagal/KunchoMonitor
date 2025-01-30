@@ -1,5 +1,7 @@
 using MongoDB.Driver;
 using activity.Models;
+using content.Models;
+using MongoDB.Bson;
 using content.Services;
 
 namespace activity.Services
@@ -7,23 +9,39 @@ namespace activity.Services
     public class ActivityService : IActivityServices
     {
         private readonly IMongoCollection<Activity> _activityCollection;
+        private readonly IMongoCollection<Content> _contentCollection;
 
-        public ActivityService(IConfiguration config)
+        public ActivityService(MongoConnect mongoConnect)
         {
-            var client = new MongoClient(config["MongoDbSettings:ConnectionString"]);
-            var database = client.GetDatabase(config["MongoDbSettings:DatabaseName"]);
-            _activityCollection = database.GetCollection<Activity>(config["MongoDbSettings:CollectionName"]);
+            _activityCollection = mongoConnect.Activities;
+            _contentCollection = mongoConnect.Contents;
         }
 
-        public async Task<Activity> AddActivity(int contentId){
-                var newActivity = new Activity
-                {
-                    ContentId = contentId,
-                    AccessedOn = DateTime.UtcNow
-                };
+        public async Task<Activity> AddActivity(int contentId)
+        {
+            var content = await _contentCollection
+                .Find(c => c.Id == contentId)
+                .FirstOrDefaultAsync();
 
-                await _activityCollection.InsertOneAsync(newActivity);
-                return newActivity;
-                    }
+            var newActivity = new Activity
+            {
+                ContentId = contentId,
+                ContentTitle = content?.Title,
+            };
+
+            await _activityCollection.InsertOneAsync(newActivity);
+            return newActivity;
+        }
+
+        public async Task<Activity> GetActivityByContentId(int contentId)
+        {
+            var activity = await _activityCollection
+                .Find(a => a.ContentId == contentId)
+                .SortByDescending(a => a.AccessedOn) 
+                .FirstOrDefaultAsync();
+
+            return activity;
+        }
+
+        }
     }
-}

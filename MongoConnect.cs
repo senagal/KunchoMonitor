@@ -1,6 +1,7 @@
 using MongoDB.Driver;
 using content.Models;
 using user.Models;
+using activity.Models;
 
 public class MongoConnect
 {
@@ -14,4 +15,5 @@ public class MongoConnect
 
     public IMongoCollection<User> Users => _database.GetCollection<User>("Users");
     public IMongoCollection<Content> Contents => _database.GetCollection<Content>("Contents");
+    public IMongoCollection<Activity> Activities => _database.GetCollection<Activity>("Activities");
 }

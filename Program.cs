@@ -7,10 +7,10 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSingleton<IContentServices, ContentService>();
-builder.Services.AddSingleton<IActivityServices, ActivityService>();
-builder.Services.AddSingleton<IUserServices, UserService>();
-builder.Services.AddSingleton<MongoConnect>();
+builder.Services.AddScoped<IContentServices, ContentService>();
+builder.Services.AddScoped<IActivityServices, ActivityService>();
+builder.Services.AddScoped<IUserServices, UserService>();
+builder.Services.AddSingleton<MongoConnect>(); 
 
 builder.Services.AddControllers();
 
