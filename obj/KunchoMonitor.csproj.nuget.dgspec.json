@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\KunchoMonitor\\KunchoMonitor.csproj": {}
+    "C:\\Users\\HP\\Desktop\\School\\Elective\\KunchoMonitor\\KunchoMonitor.csproj": {}
   },
   "projects": {
-    "D:\\KunchoMonitor\\KunchoMonitor.csproj": {
+    "C:\\Users\\HP\\Desktop\\School\\Elective\\KunchoMonitor\\KunchoMonitor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\KunchoMonitor\\KunchoMonitor.csproj",
+        "projectUniqueName": "C:\\Users\\HP\\Desktop\\School\\Elective\\KunchoMonitor\\KunchoMonitor.csproj",
         "projectName": "KunchoMonitor",
-        "projectPath": "D:\\KunchoMonitor\\KunchoMonitor.csproj",
-        "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
-        "outputPath": "D:\\KunchoMonitor\\obj\\",
+        "projectPath": "C:\\Users\\HP\\Desktop\\School\\Elective\\KunchoMonitor\\KunchoMonitor.csproj",
+        "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\HP\\Desktop\\School\\Elective\\KunchoMonitor\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\hp\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -37,8 +37,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.100"
+        }
       },
       "frameworks": {
         "net6.0": {
@@ -72,24 +71,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[6.0.36, 6.0.36]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[6.0.36, 6.0.36]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[6.0.36, 6.0.36]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[6.0.36, 6.0.36]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -98,7 +79,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.404\\RuntimeIdentifierGraph.json"
         }
       }
     }

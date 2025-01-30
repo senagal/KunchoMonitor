@@ -84,6 +84,20 @@ namespace content.Controllers
         /// </summary>
         /// <param name="id">The unique identifier of the content to delete.</param>
         /// <returns>No content response if deletion is successful, or NotFound if content doesn't exist.</returns>
+        
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Content>> UpdateContent(int id, Content updatedContent)
+        {
+            var content = await _contentService.UpdateContent(id, updatedContent);
+
+            if (content == null)
+            {
+                return NotFound($"Content with ID {id} not found.");
+            }
+
+            return Ok(content);
+        }
+        
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteContent(int id)
         {

@@ -122,15 +122,8 @@ public class ContentService : IContentServices
     /// <returns>A task representing the asynchronous operation, with the updated <see cref="Content"/>.</returns>
     public async Task<Content> UpdateContent(int id, Content updatedContent)
     {
-        var existingContent = await _contentCollection.Find(p => p.Id == id).FirstOrDefaultAsync();
-        if (existingContent == null)
-            return null;
-
-        existingContent.Title = updatedContent.Title; 
-        var filter = Builders<Content>.Filter.Eq(p => p.Id, id);
-        var updateResult = await _contentCollection.ReplaceOneAsync(filter, existingContent);
-
-        return updateResult.IsAcknowledged ? existingContent : null;
+        await _contentCollection.ReplaceOneAsync(p => p.Id == id, updatedContent);
+        return updatedContent;
     }
 
     /// <summary>
