@@ -98,45 +98,45 @@
         </member>
         <member name="T:content.Services.ContentService">
             <summary>
-            Service class to handle operations related to Content.
+            Service class to handle operations related to content management.
             </summary>
         </member>
         <member name="M:content.Services.ContentService.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             Initializes a new instance of the <see cref="T:content.Services.ContentService"/> class.
             </summary>
-            <param name="config">Configuration settings.</param>
+            <param name="config">Configuration settings for MongoDB connection.</param>
         </member>
         <member name="M:content.Services.ContentService.SearchAndFilterContent(content.Models.SearchFilterCriteria)">
             <summary>
             Searches and filters content based on the provided criteria.
             </summary>
-            <param name="criteria">Search filter criteria.</param>
-            <returns>A task representing the asynchronous operation, with a list of <see cref="T:content.Models.Content"/>.</returns>
+            <param name="criteria">Search filter criteria containing title, ID, and body content.</param>
+            <returns>A task representing the asynchronous operation, with a list of <see cref="T:content.Models.Content"/> items.</returns>
         </member>
         <member name="M:content.Services.ContentService.SearchAndFilterWithPagination(System.String,System.Nullable{System.Int32},System.Int32,System.Int32)">
             <summary>
             Searches, filters, and applies pagination to content.
             </summary>
-            <param name="query">Search query for title or body.</param>
-            <param name="id">Content ID to filter by.</param>
+            <param name="query">Search query for title or body content.</param>
+            <param name="id">Optional content ID to filter by.</param>
             <param name="page">Page number for pagination.</param>
-            <param name="pageSize">Page size for pagination.</param>
-            <returns>A task representing the asynchronous operation, with a list of <see cref="T:content.Models.Content"/>.</returns>
+            <param name="pageSize">Number of items per page.</param>
+            <returns>A task representing the asynchronous operation, with a list of <see cref="T:content.Models.Content"/> items.</returns>
         </member>
         <member name="M:content.Services.ContentService.GetContentById(System.Int32)">
             <summary>
             Retrieves a content item by its ID.
             </summary>
             <param name="id">The ID of the content to retrieve.</param>
-            <returns>A task representing the asynchronous operation, with a <see cref="T:content.Models.Content"/> as the result.</returns>
+            <returns>A task representing the asynchronous operation, with the <see cref="T:content.Models.Content"/> item as the result.</returns>
         </member>
         <member name="M:content.Services.ContentService.AddContent(content.Models.Content)">
             <summary>
-            Adds a new content item.
+            Adds a new content item to the collection.
             </summary>
-            <param name="newContent">The new content to add.</param>
-            <returns>A task representing the asynchronous operation, with the added <see cref="T:content.Models.Content"/>.</returns>
+            <param name="newContent">The new content object to add.</param>
+            <returns>A task representing the asynchronous operation, with the added <see cref="T:content.Models.Content"/> item.</returns>
         </member>
         <member name="M:content.Services.ContentService.UpdateContent(System.Int32,content.Models.Content)">
             <summary>
@@ -144,7 +144,7 @@
             </summary>
             <param name="id">The ID of the content to update.</param>
             <param name="updatedContent">The updated content data.</param>
-            <returns>A task representing the asynchronous operation, with the updated <see cref="T:content.Models.Content"/>.</returns>
+            <returns>A task representing the asynchronous operation, with the updated <see cref="T:content.Models.Content"/> item.</returns>
         </member>
         <member name="M:content.Services.ContentService.DeleteContent(System.Int32)">
             <summary>

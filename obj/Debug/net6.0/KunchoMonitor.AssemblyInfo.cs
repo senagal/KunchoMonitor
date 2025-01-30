@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KunchoMonitor")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+06b2452fda9b1a62b58f5fd2713ce559d0d09701")]
 [assembly: System.Reflection.AssemblyProductAttribute("KunchoMonitor")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KunchoMonitor")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
