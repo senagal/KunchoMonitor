@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using activity.Models;
 using content.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace activity.Controllers
 {
@@ -9,6 +10,7 @@ namespace activity.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ActivityController : ControllerBase
     {
         private readonly IActivityServices _activityService;
