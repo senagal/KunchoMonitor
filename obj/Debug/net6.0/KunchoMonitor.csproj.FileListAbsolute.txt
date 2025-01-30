@@ -213,3 +213,4 @@ C:\Users\RYZEN3\Desktop\allin1\kunchoMonitorr\KunchoMonitor\bin\Debug\net6.0\Mic
 C:\Users\RYZEN3\Desktop\allin1\kunchoMonitorr\KunchoMonitor\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
 C:\Users\RYZEN3\Desktop\allin1\kunchoMonitorr\KunchoMonitor\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
 >>>>>>> selamalex/main
+D:\Marti\4thYear\KunchoMonitor\bin\Debug\net6.0\KunchoMonitor.xml

@@ -6,42 +6,59 @@ using content.Services;
 
 namespace activity.Services
 {
-    public class ActivityService : IActivityServices
+    /// <summary>
+/// Service class to handle operations related to Activity.
+/// </summary>
+public class ActivityService : IActivityServices
+{
+    private readonly IMongoCollection<Activity> _activityCollection;
+    private readonly IMongoCollection<Content> _contentCollection;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ActivityService"/> class.
+    /// </summary>
+    /// <param name="mongoConnect">The database connection object.</param>
+    public ActivityService(MongoConnect mongoConnect)
     {
-        private readonly IMongoCollection<Activity> _activityCollection;
-        private readonly IMongoCollection<Content> _contentCollection;
+        _activityCollection = mongoConnect.Activities;
+        _contentCollection = mongoConnect.Contents;
+    }
 
-        public ActivityService(MongoConnect mongoConnect)
+    /// <summary>
+    /// Adds an activity related to a specific content by its contentId.
+    /// </summary>
+    /// <param name="contentId">The content's ID.</param>
+    /// <returns>A task representing the asynchronous operation, with an <see cref="Activity"/> as the result.</returns>
+    public async Task<Activity> AddActivity(int contentId)
+    {
+        var content = await _contentCollection
+            .Find(c => c.Id == contentId)
+            .FirstOrDefaultAsync();
+
+        var newActivity = new Activity
         {
-            _activityCollection = mongoConnect.Activities;
-            _contentCollection = mongoConnect.Contents;
-        }
+            ContentId = contentId,
+            ContentTitle = content?.Title,
+        };
 
-        public async Task<Activity> AddActivity(int contentId)
-        {
-            var content = await _contentCollection
-                .Find(c => c.Id == contentId)
-                .FirstOrDefaultAsync();
+        await _activityCollection.InsertOneAsync(newActivity);
+        return newActivity;
+    }
 
-            var newActivity = new Activity
-            {
-                ContentId = contentId,
-                ContentTitle = content?.Title,
-            };
+    /// <summary>
+    /// Retrieves the most recent activity associated with a contentId.
+    /// </summary>
+    /// <param name="contentId">The content's ID.</param>
+    /// <returns>A task representing the asynchronous operation, with an <see cref="Activity"/> as the result.</returns>
+    public async Task<Activity> GetActivityByContentId(int contentId)
+    {
+        var activity = await _activityCollection
+            .Find(a => a.ContentId == contentId)
+            .SortByDescending(a => a.AccessedOn) 
+            .FirstOrDefaultAsync();
 
-            await _activityCollection.InsertOneAsync(newActivity);
-            return newActivity;
-        }
+        return activity;
+    }
+}
 
-        public async Task<Activity> GetActivityByContentId(int contentId)
-        {
-            var activity = await _activityCollection
-                .Find(a => a.ContentId == contentId)
-                .SortByDescending(a => a.AccessedOn) 
-                .FirstOrDefaultAsync();
-
-            return activity;
-        }
-
-        }
     }
