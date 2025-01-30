@@ -66,12 +66,18 @@ public class UsersController : ControllerBase
     [HttpGet("{id}")]
     [Authorize]
     public async Task<IActionResult> GetUserById(string id)
+{
+
+    if (!int.TryParse(id, out int userId) || userId < 0)
     {
-        var user = await _userService.GetUserById(id);
-        if (user == null)
-        {
-            return NotFound(new { message = "User not found" });
-        }
-        return Ok(user);
+        return BadRequest(new { message = "ID must be a positive number" });
     }
+
+    var user = await _userService.GetUserById(userId.ToString());
+    if (user == null)
+    {
+        return NotFound(new { message = "User not found" });
+    }
+    return Ok(user);
+}
 }
