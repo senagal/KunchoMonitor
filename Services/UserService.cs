@@ -80,11 +80,10 @@ public class UserService : IUserServices
     /// </summary>
     /// <param name="userId">The ID of the user to retrieve.</param>
     /// <returns>A task representing the asynchronous operation, with the <see cref="User"/> object.</returns>
-    public async Task<User> GetUserById(string userId)
+    public async Task<User> GetUserByUsername(string username)
     {
-        return await _users.Find(u => u.Id.ToString() == userId).FirstOrDefaultAsync();
+        return await _users.Find(u => u.Username == username).FirstOrDefaultAsync();
     }
-
     /// <summary>
     /// Retrieves all users from the system.
     /// </summary>

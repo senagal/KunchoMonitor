@@ -28,7 +28,7 @@ namespace content.Services
             Task<User> AuthenticateUserAsync(string username, string password);
             Task<string> Login(string username, string password);
             Task AddUser(User newUser);
-            Task<User> GetUserById(string userId);
+            Task<User> GetUserByUsername(string username);
             Task<List<User>> GetAllUsers();
         }
     

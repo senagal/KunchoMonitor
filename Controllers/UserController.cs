@@ -63,21 +63,21 @@ public class UsersController : ControllerBase
     /// </summary>
     /// <param name="id">The unique identifier of the user.</param>
     /// <returns>The user with the given ID, or NotFound if the user doesn't exist.</returns>
-    [HttpGet("{id}")]
     [Authorize]
-    public async Task<IActionResult> GetUserById(string id)
-{
-
-    if (!int.TryParse(id, out int userId) || userId < 0)
+    [HttpGet("byname/{username}")]
+    public async Task<IActionResult> GetUserByUsername(string username)
     {
-        return BadRequest(new { message = "ID must be a positive number" });
+        if (string.IsNullOrEmpty(username))
+        {
+            return BadRequest(new { message = "Username cannot be empty" });
+        }
+
+        var user = await _userService.GetUserByUsername(username);
+        if (user == null)
+        {
+            return NotFound(new { message = "User not found" });
+        }
+        return Ok(user);
     }
 
-    var user = await _userService.GetUserById(userId.ToString());
-    if (user == null)
-    {
-        return NotFound(new { message = "User not found" });
-    }
-    return Ok(user);
-}
 }

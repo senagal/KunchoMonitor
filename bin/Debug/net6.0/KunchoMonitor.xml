@@ -15,13 +15,6 @@
             </summary>
             <param name="activityService">The service used to manage activities.</param>
         </member>
-        <member name="M:activity.Controllers.ActivityController.AddActivity(System.Int32)">
-            <summary>
-            Adds a new activity for the specified content ID.
-            </summary>
-            <param name="contentId">The unique identifier of the content.</param>
-            <returns>The newly created activity.</returns>
-        </member>
         <member name="M:activity.Controllers.ActivityController.GetActivity(System.Int32)">
             <summary>
             Retrieves the activity associated with the specified content ID.
@@ -80,7 +73,7 @@
             <param name="id">The unique identifier of the content.</param>
             <returns>The content with the given ID, or NotFound if it doesn't exist.</returns>
         </member>
-        <member name="M:content.Controllers.ContentController.DeleteContent(System.Int32)">
+        <member name="M:content.Controllers.ContentController.UpdateContent(System.Int32,content.Models.Content)">
             <summary>
             Deletes the content with the specified ID.
             </summary>
@@ -180,7 +173,7 @@
             </summary>
             <returns>A list of all users in the system.</returns>
         </member>
-        <member name="M:UsersController.GetUserById(System.String)">
+        <member name="M:UsersController.GetUserByUsername(System.String)">
             <summary>
             Retrieves the user with the specified ID.
             </summary>
@@ -221,7 +214,7 @@
             <param name="password">The password.</param>
             <returns>A task representing the asynchronous operation, with the generated JWT token.</returns>
         </member>
-        <member name="M:UserService.GetUserById(System.String)">
+        <member name="M:UserService.GetUserByUsername(System.String)">
             <summary>
             Retrieves a user by their ID.
             </summary>

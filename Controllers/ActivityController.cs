@@ -24,17 +24,6 @@ namespace activity.Controllers
             _activityService = activityService;
         }
 
-        /// <summary>
-        /// Adds a new activity for the specified content ID.
-        /// </summary>
-        /// <param name="contentId">The unique identifier of the content.</param>
-        /// <returns>The newly created activity.</returns>
-        [HttpPost("add")]
-        public async Task<ActionResult<Activity>> AddActivity(int contentId)
-        {
-            var activity = await _activityService.AddActivity(contentId);
-            return CreatedAtAction(nameof(GetActivity), new { contentId = contentId }, activity);
-        }
 
         /// <summary>
         /// Retrieves the activity associated with the specified content ID.
