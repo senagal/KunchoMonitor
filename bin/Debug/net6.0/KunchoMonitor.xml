@@ -35,17 +35,23 @@
         </member>
         <member name="M:activity.Services.ActivityService.AddActivity(System.Int32)">
             <summary>
-            Adds an activity related to a specific content by its contentId.
+            Adds an activity related to a specific content by its content ID.
             </summary>
             <param name="contentId">The content's ID.</param>
-            <returns>A task representing the asynchronous operation, with an <see cref="T:activity.Models.Activity"/> as the result.</returns>
+            <returns>
+            A task that represents the asynchronous operation.
+            The task result contains the newly added <see cref="T:activity.Models.Activity"/>.
+            </returns>
         </member>
         <member name="M:activity.Services.ActivityService.GetActivitiesByContentId(System.Int32)">
             <summary>
             Retrieves a list of activity logs associated with a content ID.
             </summary>
             <param name="contentId">The content's ID.</param>
-            <returns>A task representing the asynchronous operation, with a list of <see cref="T:activity.Models.Activity"/> as the result.</returns>
+            <returns>
+            A task that represents the asynchronous operation.
+            The task result contains a list of <see cref="T:activity.Models.Activity"/> objects.
+            </returns>
         </member>
         <member name="T:content.Controllers.ContentController">
             <summary>

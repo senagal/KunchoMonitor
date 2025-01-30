@@ -7,8 +7,8 @@ using content.Services;
 namespace activity.Services
 {
     /// <summary>
-/// Service class to handle operations related to Activity.
-/// </summary>
+    /// Service class to handle operations related to Activity.
+    /// </summary>
     public class ActivityService : IActivityServices
     {
         private readonly IMongoCollection<Activity> _activityCollection;
@@ -25,10 +25,13 @@ namespace activity.Services
         }
 
         /// <summary>
-        /// Adds an activity related to a specific content by its contentId.
+        /// Adds an activity related to a specific content by its content ID.
         /// </summary>
         /// <param name="contentId">The content's ID.</param>
-        /// <returns>A task representing the asynchronous operation, with an <see cref="Activity"/> as the result.</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation.
+        /// The task result contains the newly added <see cref="Activity"/>.
+        /// </returns>
         public async Task<Activity> AddActivity(int contentId)
         {
             var content = await _contentCollection
@@ -45,11 +48,14 @@ namespace activity.Services
             return newActivity;
         }
 
-              /// <summary>
+        /// <summary>
         /// Retrieves a list of activity logs associated with a content ID.
         /// </summary>
         /// <param name="contentId">The content's ID.</param>
-        /// <returns>A task representing the asynchronous operation, with a list of <see cref="Activity"/> as the result.</returns>
+        /// <returns>
+        /// A task that represents the asynchronous operation.
+        /// The task result contains a list of <see cref="Activity"/> objects.
+        /// </returns>
         public async Task<List<Activity>> GetActivitiesByContentId(int contentId)
         {
             var activities = await _activityCollection
@@ -60,5 +66,4 @@ namespace activity.Services
             return activities;
         }
     }
-
 }
