@@ -31,16 +31,16 @@ namespace activity.Controllers
         /// <param name="contentId">The unique identifier of the content.</param>
         /// <returns>The activity associated with the given content ID, or NotFound if it doesn't exist.</returns>
         [HttpGet("{contentId}")]
-        public async Task<ActionResult<Activity>> GetActivity(int contentId)
+        public async Task<ActionResult<List<Activity>>> GetActivitiesByContentId(int contentId)
         {
-            var activity = await _activityService.GetActivityByContentId(contentId);
+            var activities = await _activityService.GetActivitiesByContentId(contentId);
 
-            if (activity == null)
+            if (activities == null || activities.Count == 0)
             {
-                return NotFound();
+                return NotFound($"No activities found for Content ID {contentId}.");
             }
 
-            return Ok(activity);
+            return Ok(activities);
         }
     }
 }

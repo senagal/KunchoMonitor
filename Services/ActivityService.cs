@@ -9,56 +9,56 @@ namespace activity.Services
     /// <summary>
 /// Service class to handle operations related to Activity.
 /// </summary>
-public class ActivityService : IActivityServices
-{
-    private readonly IMongoCollection<Activity> _activityCollection;
-    private readonly IMongoCollection<Content> _contentCollection;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ActivityService"/> class.
-    /// </summary>
-    /// <param name="mongoConnect">The database connection object.</param>
-    public ActivityService(MongoConnect mongoConnect)
+    public class ActivityService : IActivityServices
     {
-        _activityCollection = mongoConnect.Activities;
-        _contentCollection = mongoConnect.Contents;
-    }
+        private readonly IMongoCollection<Activity> _activityCollection;
+        private readonly IMongoCollection<Content> _contentCollection;
 
-    /// <summary>
-    /// Adds an activity related to a specific content by its contentId.
-    /// </summary>
-    /// <param name="contentId">The content's ID.</param>
-    /// <returns>A task representing the asynchronous operation, with an <see cref="Activity"/> as the result.</returns>
-    public async Task<Activity> AddActivity(int contentId)
-    {
-        var content = await _contentCollection
-            .Find(c => c.Id == contentId)
-            .FirstOrDefaultAsync();
-
-        var newActivity = new Activity
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ActivityService"/> class.
+        /// </summary>
+        /// <param name="mongoConnect">The database connection object.</param>
+        public ActivityService(MongoConnect mongoConnect)
         {
-            ContentId = contentId,
-            ContentTitle = content?.Title,
-        };
+            _activityCollection = mongoConnect.Activities;
+            _contentCollection = mongoConnect.Contents;
+        }
 
-        await _activityCollection.InsertOneAsync(newActivity);
-        return newActivity;
+        /// <summary>
+        /// Adds an activity related to a specific content by its contentId.
+        /// </summary>
+        /// <param name="contentId">The content's ID.</param>
+        /// <returns>A task representing the asynchronous operation, with an <see cref="Activity"/> as the result.</returns>
+        public async Task<Activity> AddActivity(int contentId)
+        {
+            var content = await _contentCollection
+                .Find(c => c.Id == contentId)
+                .FirstOrDefaultAsync();
+
+            var newActivity = new Activity
+            {
+                ContentId = contentId,
+                ContentTitle = content?.Title,
+            };
+
+            await _activityCollection.InsertOneAsync(newActivity);
+            return newActivity;
+        }
+
+              /// <summary>
+        /// Retrieves a list of activity logs associated with a content ID.
+        /// </summary>
+        /// <param name="contentId">The content's ID.</param>
+        /// <returns>A task representing the asynchronous operation, with a list of <see cref="Activity"/> as the result.</returns>
+        public async Task<List<Activity>> GetActivitiesByContentId(int contentId)
+        {
+            var activities = await _activityCollection
+                .Find(a => a.ContentId == contentId)
+                .SortByDescending(a => a.AccessedOn)
+                .ToListAsync();
+
+            return activities;
+        }
     }
 
-    /// <summary>
-    /// Retrieves the most recent activity associated with a contentId.
-    /// </summary>
-    /// <param name="contentId">The content's ID.</param>
-    /// <returns>A task representing the asynchronous operation, with an <see cref="Activity"/> as the result.</returns>
-    public async Task<Activity> GetActivityByContentId(int contentId)
-    {
-        var activity = await _activityCollection
-            .Find(a => a.ContentId == contentId)
-            .SortByDescending(a => a.AccessedOn) 
-            .FirstOrDefaultAsync();
-
-        return activity;
-    }
 }
-
-    }

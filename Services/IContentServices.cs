@@ -21,7 +21,7 @@ namespace content.Services
         public interface IActivityServices
         {
             Task<Activity> AddActivity(int contentId);
-            Task<Activity> GetActivityByContentId(int contentId);
+            Task<List<Activity>> GetActivitiesByContentId(int contentId);
         }
         public interface IUserServices
         {

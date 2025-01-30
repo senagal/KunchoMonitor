@@ -15,7 +15,7 @@
             </summary>
             <param name="activityService">The service used to manage activities.</param>
         </member>
-        <member name="M:activity.Controllers.ActivityController.GetActivity(System.Int32)">
+        <member name="M:activity.Controllers.ActivityController.GetActivitiesByContentId(System.Int32)">
             <summary>
             Retrieves the activity associated with the specified content ID.
             </summary>
@@ -40,12 +40,12 @@
             <param name="contentId">The content's ID.</param>
             <returns>A task representing the asynchronous operation, with an <see cref="T:activity.Models.Activity"/> as the result.</returns>
         </member>
-        <member name="M:activity.Services.ActivityService.GetActivityByContentId(System.Int32)">
+        <member name="M:activity.Services.ActivityService.GetActivitiesByContentId(System.Int32)">
             <summary>
-            Retrieves the most recent activity associated with a contentId.
+            Retrieves a list of activity logs associated with a content ID.
             </summary>
             <param name="contentId">The content's ID.</param>
-            <returns>A task representing the asynchronous operation, with an <see cref="T:activity.Models.Activity"/> as the result.</returns>
+            <returns>A task representing the asynchronous operation, with a list of <see cref="T:activity.Models.Activity"/> as the result.</returns>
         </member>
         <member name="T:content.Controllers.ContentController">
             <summary>
