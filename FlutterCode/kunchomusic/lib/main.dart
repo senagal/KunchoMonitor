@@ -2,6 +2,10 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'AuthPage.dart';
+import 'HomePage.dart';
+import 'MusicPlayerPage.dart';
+import 'ProfilePage.dart';
 
 void main() {
   runApp(MyApp());

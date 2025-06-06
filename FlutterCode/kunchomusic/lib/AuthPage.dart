@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 class AuthPage extends StatefulWidget {
   @override
   _AuthPageState createState() => _AuthPageState();
@@ -27,7 +30,6 @@ class _AuthPageState extends State<AuthPage> {
           );
         }
       } else {
-        // Signup logic
         if (prefs.containsKey('password_$_username')) {
           ScaffoldMessenger.of(
             context,
@@ -35,7 +37,6 @@ class _AuthPageState extends State<AuthPage> {
         } else {
           prefs.setString('password_$_username', _password);
           prefs.setString('currentUser', _username);
-          // Create empty starred list for new user
           prefs.setStringList('starred_$_username', []);
           Navigator.pushReplacementNamed(context, '/home');
         }

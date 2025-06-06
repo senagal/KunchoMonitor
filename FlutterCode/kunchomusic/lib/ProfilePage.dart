@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -24,7 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> _loadSongs() async {
-    // In a real app, you would load these from your actual songs list
+    // summy data for now
     setState(() {
       allSongs = [
         {'id': '1', 'title': 'Twinkle Twinkle Little Star'},
@@ -104,7 +107,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: ElevatedButton(
                 onPressed: _logout,
                 child: Text('Logout'),
-                style: ElevatedButton.styleFrom(primary: Colors.red),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
               ),
             ),
           ],

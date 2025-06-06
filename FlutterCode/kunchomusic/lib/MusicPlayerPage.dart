@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
+
 class MusicPlayerPage extends StatefulWidget {
   @override
   _MusicPlayerPageState createState() => _MusicPlayerPageState();
@@ -25,10 +28,6 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
   }
 
   Future<void> _initAudio() async {
-    // For demo, we'll play from assets. In real app, you'd use the path
-    // audioPlayer.play(DeviceFileSource(song['path']));
-
-    // This is just for demo - in a real app you'd have actual audio files
     audioPlayer.onPlayerStateChanged.listen((state) {
       setState(() {
         _playerState = state;
@@ -53,7 +52,6 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
     if (_isPlaying) {
       await audioPlayer.pause();
     } else {
-      // In real app: await audioPlayer.play(DeviceFileSource(song['path']));
       setState(() {
         _isPlaying = true;
       });

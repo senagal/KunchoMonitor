@@ -1,4 +1,26 @@
+name: kids_audio_app
+description: A simple Flutter app for kids with audio and images.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.7.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  shared_preferences: ^2.2.2
+  path_provider: ^2.1.2
+  audioplayers: ^5.2.1 # or latest version
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.2
+
 flutter:
+  uses-material-design: true
+
   assets:
     - assets/twinkle.mp3
     - assets/macdonald.mp3
