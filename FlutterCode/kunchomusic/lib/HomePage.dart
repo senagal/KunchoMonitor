@@ -36,8 +36,8 @@ class _HomePageState extends State<HomePage> {
           'title': 'Twinkle Twinkle Little Star',
           'artist': 'Kids Songs',
           'duration': '1:45',
-          'path': 'twinkle.mp3', // This would be in your assets folder
-          'image': 'twinkle.png',
+          'path': 'twinkle.mp3',
+          'image': 'twinkle.jpg',
         },
         {
           'id': '2',
@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
           'artist': 'Kids Songs',
           'duration': '2:10',
           'path': 'macdonald.mp3',
-          'image': 'farm.png',
+          'image': 'farm.jpg',
         },
         {
           'id': '3',

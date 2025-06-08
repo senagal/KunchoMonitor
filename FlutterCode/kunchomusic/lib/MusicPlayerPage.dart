@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'dart:async';
 
 class MusicPlayerPage extends StatefulWidget {
   @override
@@ -13,6 +14,9 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
   Duration _duration = Duration.zero;
   Duration _position = Duration.zero;
   bool _isPlaying = false;
+  StreamSubscription? _stateSub;
+  StreamSubscription? _durationSub;
+  StreamSubscription? _positionSub;
 
   @override
   void initState() {
@@ -24,24 +28,39 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    song = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final args = ModalRoute.of(context)?.settings.arguments;
+    if (args != null && args is Map<String, dynamic>) {
+      song = args;
+      debugPrint('Received song: $song');
+    } else {
+      song = {
+        'title': 'Unknown',
+        'artist': 'Unknown Artist',
+        'image': 'bus.png',
+        'audioPath': 'wheels.mp3',
+      };
+      debugPrint('Warning: No arguments passed. Using default song: $song');
+    }
   }
 
   Future<void> _initAudio() async {
-    audioPlayer.onPlayerStateChanged.listen((state) {
+    _stateSub = audioPlayer.onPlayerStateChanged.listen((state) {
+      if (!mounted) return;
       setState(() {
         _playerState = state;
         _isPlaying = state == PlayerState.playing;
       });
     });
 
-    audioPlayer.onDurationChanged.listen((duration) {
+    _durationSub = audioPlayer.onDurationChanged.listen((duration) {
+      if (!mounted) return;
       setState(() {
         _duration = duration;
       });
     });
 
-    audioPlayer.onPositionChanged.listen((position) {
+    _positionSub = audioPlayer.onPositionChanged.listen((position) {
+      if (!mounted) return;
       setState(() {
         _position = position;
       });
@@ -49,12 +68,16 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
   }
 
   Future<void> _playPause() async {
+    final path = song['path'];
+    if (path == null || path.isEmpty) {
+      debugPrint('Error: audioPath is null or empty');
+      return;
+    }
+
     if (_isPlaying) {
       await audioPlayer.pause();
     } else {
-      setState(() {
-        _isPlaying = true;
-      });
+      await audioPlayer.play(AssetSource(path));
     }
   }
 
