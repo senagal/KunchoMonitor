@@ -27,7 +27,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _loadSongs() async {
-    // In a real app, you would load these from assets or local storage
     // For demo, we're using a hardcoded list
     setState(() {
       songs = [
