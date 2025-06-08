@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'db.dart';
 
 class AuthPage extends StatefulWidget {
   @override
@@ -16,13 +17,9 @@ class _AuthPageState extends State<AuthPage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      final prefs = await SharedPreferences.getInstance();
-
       if (isLogin) {
-        // Login logic
-        final savedPassword = prefs.getString('password_$_username');
-        if (savedPassword == _password) {
-          prefs.setString('currentUser', _username);
+        final user = await getUser(_username);
+        if (user != null && user['password'] == _password) {
           Navigator.pushReplacementNamed(context, '/home');
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -30,14 +27,13 @@ class _AuthPageState extends State<AuthPage> {
           );
         }
       } else {
-        if (prefs.containsKey('password_$_username')) {
+        final existingUser = await getUser(_username);
+        if (existingUser != null) {
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text('Username already exists')));
         } else {
-          prefs.setString('password_$_username', _password);
-          prefs.setString('currentUser', _username);
-          prefs.setStringList('starred_$_username', []);
+          await insertUser(_username, _password);
           Navigator.pushReplacementNamed(context, '/home');
         }
       }
