@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'db.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,19 +11,28 @@ class _HomePageState extends State<HomePage> {
   String? currentUser;
   List<Map<String, dynamic>> songs = [];
   List<String> starredSongs = [];
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _loadUserData();
-    _loadSongs();
+    _initializePage(); // 👈 Combine loading logic into one method
+  }
+
+  Future<void> _initializePage() async {
+    await _loadUserData();
+    _loadSongs(); // You can keep this non-await if it's local
+    setState(() {
+      isLoading = false;
+    });
   }
 
   Future<void> _loadUserData() async {
-    final prefs = await SharedPreferences.getInstance();
+    final username = await getCurrentUser();
+    final starred = await getStarredSongs(username);
     setState(() {
-      currentUser = prefs.getString('currentUser');
-      starredSongs = prefs.getStringList('starred_$currentUser') ?? [];
+      currentUser = username;
+      starredSongs = starred;
     });
   }
 
@@ -59,7 +69,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _toggleStar(String songId) async {
-    final prefs = await SharedPreferences.getInstance();
     setState(() {
       if (starredSongs.contains(songId)) {
         starredSongs.remove(songId);
@@ -67,7 +76,9 @@ class _HomePageState extends State<HomePage> {
         starredSongs.add(songId);
       }
     });
-    await prefs.setStringList('starred_$currentUser', starredSongs);
+    if (currentUser != null) {
+      await saveStarredSongs(currentUser!, starredSongs);
+    }
   }
 
   @override
@@ -87,7 +98,7 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'Hello, $currentUser!',
+              currentUser != null ? 'Hello, $currentUser!' : 'Loading...',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
