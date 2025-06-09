@@ -1,3 +1,4 @@
+//homepage.dart
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'db.dart';
@@ -16,12 +17,12 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _initializePage(); // 👈 Combine loading logic into one method
+    _initializePage();
   }
 
   Future<void> _initializePage() async {
     await _loadUserData();
-    _loadSongs(); // You can keep this non-await if it's local
+    _loadSongs();
     setState(() {
       isLoading = false;
     });
