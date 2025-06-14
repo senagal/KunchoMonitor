@@ -5,12 +5,18 @@ class DrippyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget>? actions;
   final double height;
   final String? username;
+  final String? avatarPath;
+  final Color backgroundColor;
+  final VoidCallback? onLogout;
 
   DrippyAppBar({
     required this.title,
     this.actions,
     this.height = kToolbarHeight + 60,
-    this.username, // extra space for drip shape
+    this.username,
+    this.avatarPath,
+    required this.backgroundColor,
+    this.onLogout,
   });
 
   @override
@@ -24,10 +30,7 @@ class DrippyAppBar extends StatelessWidget implements PreferredSizeWidget {
         height: height,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFF6B3E1A), // dark chocolate
-              Color(0xFF8B5E26), // lighter chocolate
-            ],
+            colors: [Color(0xFF6B3E1A), Color(0xFF8B5E26)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -40,42 +43,43 @@ class DrippyAppBar extends StatelessWidget implements PreferredSizeWidget {
           ],
         ),
         padding: EdgeInsets.only(
-          top:
-              MediaQuery.of(context).padding.top +
-              10, // +10 for extra spacing on top
+          top: MediaQuery.of(context).padding.top + 10,
           left: 16,
           right: 16,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: DefaultTextStyle(
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-                child: title,
+            DefaultTextStyle(
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
               ),
+              child: title,
             ),
             Row(
-              mainAxisSize: MainAxisSize.min,
               children: [
                 if (username != null)
                   Padding(
-                    padding: const EdgeInsets.only(right: 12.0),
+                    padding: const EdgeInsets.only(right: 8.0),
                     child: Text(
-                      'Hello, $username',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white70,
-                      ),
+                      'Hi, $username',
+                      style: TextStyle(fontSize: 16, color: Colors.white70),
                     ),
                   ),
+                if (avatarPath != null)
+                  CircleAvatar(
+                    backgroundImage: AssetImage(avatarPath!),
+                    radius: 20,
+                  ),
                 if (actions != null) ...actions!,
+                if (onLogout != null)
+                  IconButton(
+                    icon: Icon(Icons.logout, color: Colors.white),
+                    tooltip: 'Logout',
+                    onPressed: onLogout,
+                  ),
               ],
             ),
           ],

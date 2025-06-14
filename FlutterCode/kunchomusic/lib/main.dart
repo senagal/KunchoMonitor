@@ -6,6 +6,8 @@ import 'AuthPage.dart';
 import 'HomePage.dart';
 import 'MusicPlayerPage.dart';
 import 'ProfilePage.dart';
+import 'favorite_songs_page.dart';
+import 'loadUser.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,14 +24,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Kids Music Player',
-      theme: ThemeData(primarySwatch: Colors.purple, fontFamily: 'ComicNeue'),
+      theme: ThemeData(primarySwatch: Colors.brown, fontFamily: 'ComicNeue'),
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => AuthPage(),
+        '/': (context) => SplashPage(),
+        '/auth': (context) => AuthPage(),
         '/home': (context) => HomePage(),
         '/music': (context) => MusicPlayerPage(),
         '/profile': (context) => ProfilePage(),
+        '/favorites': (context) => FavoriteSongsPage(),
       },
     );
   }

@@ -15,18 +15,24 @@ class _HomePageState extends State<HomePage> {
   List<String> starredSongs = [];
   bool isLoading = true;
 
-  // Vibrant and playful colors
-  final Color backgroundOffWhite = Color.fromARGB(255, 237, 196, 170);
-  final Color mutedOrange = Color.fromARGB(255, 240, 123, 84);
-  final Color softBlueGray = Color.fromARGB(255, 6, 45, 68);
-  final Color gentleGreen = Color(0xFF88B08D);
-  final Color darkChocolateBrown = Color(0xFF4E342E);
-  final Color warmGold = Color(0xFFC9A34F);
+  final Color backgroundOffWhite = Color(0xFFFDEBD0);
+  final Color yellow = Color(0xFFFFF176); // Bright Yellow
+  final Color peach = Color(0xFFFFCCBC); // Soft Peach
+  final Color warmGold = Color(0xFFFFC107); // Star color
+  final Color darkBrown = Color(0xFF4E342E); // AppBar color
+  final Color backgroundColor = Colors.blue;
 
   @override
   void initState() {
     super.initState();
     _initializePage();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ModalRoute.of(context)?.addScopedWillPopCallback(() async {
+        _initializePage();
+        return true;
+      });
+    });
   }
 
   Future<void> _initializePage() async {
@@ -95,7 +101,28 @@ class _HomePageState extends State<HomePage> {
       appBar: DrippyAppBar(
         title: Text('Kuncho'),
         username: currentUser,
+        backgroundColor: darkBrown,
+        onLogout: () async {
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.remove('currentUser'); // Clear saved user
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            '/auth',
+            (route) => false,
+          ); // Navigate back to login page
+        },
         actions: [
+          IconButton(
+            icon: Icon(Icons.star, color: Colors.white),
+            tooltip: 'Favorites',
+            onPressed:
+                () => Navigator.pushNamed(
+                  context,
+                  '/favorites',
+                  arguments: {'songs': songs, 'starred': starredSongs},
+                ),
+          ),
+
           GestureDetector(
             onTap: () => Navigator.pushNamed(context, '/profile'),
             child: Padding(
@@ -110,49 +137,29 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(
-          12,
-          40,
-          12,
-          12,
-        ), // Increased top padding
-        child: Column(
-          children: [
-            // Removed SizedBox(height: 12) since padding handles spacing
-            Flexible(
-              child: GridView.builder(
-                itemCount: songs.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 12,
-                  childAspectRatio: 1.2,
-                ),
-                itemBuilder: (context, index) {
-                  final song = songs[index];
-                  final isStarred = starredSongs.contains(song['id']);
+        padding: const EdgeInsets.fromLTRB(12, 40, 12, 12),
+        child: ListView.builder(
+          itemCount: songs.length,
+          itemBuilder: (context, index) {
+            final song = songs[index];
+            final isStarred = starredSongs.contains(song['id']);
+            final bgColor = index % 2 == 0 ? yellow : peach;
 
-                  final bgColor =
-                      (index % 2 == 0)
-                          ? mutedOrange
-                          : softBlueGray; // Only 2 colors
-
-                  return _HoverableSongCard(
-                    song: song,
-                    isStarred: isStarred,
-                    bgColor: bgColor,
-                    starColor: warmGold,
-                    toggleStar: () => _toggleStar(song['id']),
-                    onTap: () {
-                      Navigator.pushNamed(context, '/music', arguments: song);
-                    },
-                  );
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: _HoverableSongCard(
+                song: song,
+                isStarred: isStarred,
+                bgColor: bgColor,
+                starColor: warmGold,
+                toggleStar: () => _toggleStar(song['id']),
+                onTap: () {
+                  Navigator.pushNamed(context, '/music', arguments: song);
                 },
               ),
-            ),
-          ],
+            );
+          },
         ),
       ),
     );
@@ -190,79 +197,64 @@ class _HoverableSongCardState extends State<_HoverableSongCard> {
       onExit: (_) => setState(() => isHovered = false),
       child: GestureDetector(
         onTap: widget.onTap,
-        child: AnimatedScale(
-          scale: isHovered ? 1.05 : 1.0,
+        child: AnimatedContainer(
           duration: Duration(milliseconds: 200),
           curve: Curves.easeInOut,
-          child: AnimatedContainer(
-            duration: Duration(milliseconds: 200),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  widget.bgColor.withOpacity(isHovered ? 1.0 : 0.9),
-                  widget.bgColor.withOpacity(isHovered ? 0.85 : 0.7),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+          padding: EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: widget.bgColor.withOpacity(isHovered ? 1.0 : 0.9),
+            borderRadius: BorderRadius.circular(25),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: isHovered ? 12 : 6,
+                offset: Offset(3, 6),
               ),
-              borderRadius: BorderRadius.circular(25),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: isHovered ? 12 : 8,
-                  offset: Offset(3, 6),
-                ),
-                BoxShadow(
-                  color: Colors.white.withOpacity(0.3),
-                  blurRadius: isHovered ? 6 : 4,
-                  offset: Offset(-3, -3),
-                ),
-              ],
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                CircleAvatar(
-                  radius: 25,
-                  backgroundImage: AssetImage('assets/${widget.song['image']}'),
-                ),
-                Text(
-                  widget.song['title'],
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                    color: Colors.white,
-                  ),
-                ),
-                Text(
-                  widget.song['artist'],
-                  style: TextStyle(fontSize: 11, color: Colors.white70),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              BoxShadow(
+                color: Colors.white.withOpacity(0.3),
+                blurRadius: isHovered ? 6 : 4,
+                offset: Offset(-3, -3),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 28,
+                backgroundImage: AssetImage('assets/${widget.song['image']}'),
+              ),
+              SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    IconButton(
-                      icon: Icon(
-                        widget.isStarred ? Icons.star : Icons.star_border,
-                        color:
-                            widget.isStarred ? widget.starColor : Colors.white,
+                    Text(
+                      widget.song['title'],
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.brown[900],
                       ),
-                      onPressed: widget.toggleStar,
-                      iconSize: 18,
-                      padding: EdgeInsets.zero,
-                      constraints: BoxConstraints(),
                     ),
-                    SizedBox(width: 6),
+                    Text(
+                      widget.song['artist'],
+                      style: TextStyle(fontSize: 12, color: Colors.brown[700]),
+                    ),
                     Text(
                       widget.song['duration'],
-                      style: TextStyle(fontSize: 11, color: Colors.white),
+                      style: TextStyle(fontSize: 12, color: Colors.brown[500]),
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+              IconButton(
+                icon: Icon(
+                  widget.isStarred ? Icons.star : Icons.star_border,
+                  color: widget.isStarred ? widget.starColor : Colors.brown,
+                ),
+                onPressed: widget.toggleStar,
+              ),
+            ],
           ),
         ),
       ),
