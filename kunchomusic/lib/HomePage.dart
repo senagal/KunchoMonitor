@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'db.dart';
 import 'drippyappbar.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -15,13 +18,13 @@ class _HomePageState extends State<HomePage> {
   List<Map<String, dynamic>> filteredSongs = [];
   List<String> starredSongs = [];
   bool isLoading = true;
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
-  final Color backgroundOffWhite = Color(0xFFFDEBD0);
-  final Color yellow = Color(0xFFFFF176); // Bright Yellow
-  final Color peach = Color(0xFFFFCCBC); // Soft Peach
-  final Color warmGold = Color(0xFFFFC107); // Star color
-  final Color darkBrown = Color(0xFF4E342E); // AppBar color
+  final Color backgroundOffWhite = const Color(0xFFFDEBD0);
+  final Color yellow = const Color(0xFFFFF176); // Bright Yellow
+  final Color peach = const Color(0xFFFFCCBC); // Soft Peach
+  final Color warmGold = const Color(0xFFFFC107); // Star color
+  final Color darkBrown = const Color(0xFF4E342E); // AppBar color
 
   @override
   void initState() {
@@ -134,12 +137,14 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
-  }@override
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundOffWhite,
       appBar: DrippyAppBar(
-        title: Text('Kuncho'),
+        title: const Text('Kuncho'),
         username: currentUser,
         avatarPath: userAvatarPath,
         backgroundColor: darkBrown,
@@ -150,7 +155,7 @@ class _HomePageState extends State<HomePage> {
         },
         actions: [
           IconButton(
-            icon: Icon(Icons.star, color: Colors.white),
+            icon: const Icon(Icons.star, color: Colors.white),
             tooltip: 'Favorites',
             onPressed: () {
               Navigator.pushNamed(
@@ -171,49 +176,62 @@ class _HomePageState extends State<HomePage> {
           }
         },
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(12, 20, 12, 12),
-        child: Column(
-          children: [
-            TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                hintText: 'Search songs...',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                filled: true,
-                fillColor: Colors.white,
-              ),
-            ),
-            SizedBox(height: 20),
-            Expanded(
-              child: ListView.builder(
-                itemCount: filteredSongs.length,
-                itemBuilder: (context, index) {
-                  final song = filteredSongs[index];
-                  final isStarred = starredSongs.contains(song['id']);
-                  final bgColor = index % 2 == 0 ? yellow : peach;
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset('../assets/bg2.png', fit: BoxFit.cover),
+          ),
 
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 16.0),
-                    child: _HoverableSongCard(
-                      song: song,
-                      isStarred: isStarred,
-                      bgColor: bgColor,
-                      starColor: warmGold,
-                      toggleStar: () => _toggleStar(song['id']),
-                      onTap: () {
-                        Navigator.pushNamed(context, '/music', arguments: song);
-                      },
+          // Foreground content
+          Padding(
+            padding: const EdgeInsets.fromLTRB(12, 20, 12, 12),
+            child: Column(
+              children: [
+                TextField(
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    hintText: 'Search songs...',
+                    prefixIcon: const Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
                     ),
-                  );
-                },
-              ),
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.9),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: filteredSongs.length,
+                    itemBuilder: (context, index) {
+                      final song = filteredSongs[index];
+                      final isStarred = starredSongs.contains(song['id']);
+                      final bgColor = index % 2 == 0 ? yellow : peach;
+
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: _HoverableSongCard(
+                          song: song,
+                          isStarred: isStarred,
+                          bgColor: bgColor.withOpacity(0.95),
+                          starColor: warmGold,
+                          toggleStar: () => _toggleStar(song['id']),
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              '/music',
+                              arguments: song,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -242,7 +260,8 @@ class _HoverableSongCard extends StatefulWidget {
 }
 
 class _HoverableSongCardState extends State<_HoverableSongCard> {
-  bool isHovered = false;@override
+  bool isHovered = false;
+  @override
   Widget build(BuildContext context) {
     return MouseRegion(
       onEnter: (_) => setState(() => isHovered = true),
@@ -250,9 +269,9 @@ class _HoverableSongCardState extends State<_HoverableSongCard> {
       child: GestureDetector(
         onTap: widget.onTap,
         child: AnimatedContainer(
-          duration: Duration(milliseconds: 200),
+          duration: const Duration(milliseconds: 200),
           curve: Curves.easeInOut,
-          padding: EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             color: widget.bgColor.withOpacity(isHovered ? 1.0 : 0.9),
             borderRadius: BorderRadius.circular(25),
@@ -260,12 +279,12 @@ class _HoverableSongCardState extends State<_HoverableSongCard> {
               BoxShadow(
                 color: Colors.black26,
                 blurRadius: isHovered ? 12 : 6,
-                offset: Offset(3, 6),
+                offset: const Offset(3, 6),
               ),
               BoxShadow(
                 color: Colors.white.withOpacity(0.3),
                 blurRadius: isHovered ? 6 : 4,
-                offset: Offset(-3, -3),
+                offset: const Offset(-3, -3),
               ),
             ],
           ),
@@ -275,7 +294,7 @@ class _HoverableSongCardState extends State<_HoverableSongCard> {
                 radius: 28,
                 backgroundImage: AssetImage('assets/${widget.song['image']}'),
               ),
-              SizedBox(width: 16),
+              const SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
