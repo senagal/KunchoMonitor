@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'db.dart';
+import 'drippyappbar.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,12 +16,12 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = true;
 
   // Vibrant and playful colors
-  final Color vibrantBrown = Color.fromARGB(255, 104, 41, 7);
-  final Color vibrantBlue = Color(0xFF6EC6FF);
-  final Color vibrantYellow = Color(0xFFFFF176);
-  final Color vibrantGreen = Color(0xFF81C784);
-  final Color offWhite = Color(0xFFFFFBF2);
-  final Color darkBrown = Color(0xFF4E342E);
+  final Color backgroundOffWhite = Color.fromARGB(255, 237, 196, 170);
+  final Color mutedOrange = Color.fromARGB(255, 240, 123, 84);
+  final Color softBlueGray = Color.fromARGB(255, 6, 45, 68);
+  final Color gentleGreen = Color(0xFF88B08D);
+  final Color darkChocolateBrown = Color(0xFF4E342E);
+  final Color warmGold = Color(0xFFC9A34F);
 
   @override
   void initState() {
@@ -90,19 +91,17 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: offWhite,
-      appBar: AppBar(
-        backgroundColor: vibrantBrown,
-        title: Text(
-          'Kids Music Player',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
+      backgroundColor: backgroundOffWhite,
+      appBar: DrippyAppBar(
+        title: Text('Kuncho'),
+        username: currentUser,
         actions: [
           GestureDetector(
             onTap: () => Navigator.pushNamed(context, '/profile'),
             child: Padding(
               padding: const EdgeInsets.only(right: 12.0),
               child: CircleAvatar(
+                radius: 18,
                 backgroundImage: AssetImage(
                   userAvatarPath ?? 'assets/wero.jpg',
                 ),
@@ -111,21 +110,17 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+
       body: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.fromLTRB(
+          12,
+          40,
+          12,
+          12,
+        ), // Increased top padding
         child: Column(
           children: [
-            Text(
-              currentUser != null ? '🎵 Hello, $currentUser!' : 'Loading...',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: darkBrown,
-              ),
-            ),
-            SizedBox(height: 12),
-            // Limit the height of the grid to avoid overflow
-            // Replace ConstrainedBox with Flexible for better dynamic sizing
+            // Removed SizedBox(height: 12) since padding handles spacing
             Flexible(
               child: GridView.builder(
                 itemCount: songs.length,
@@ -133,17 +128,22 @@ class _HomePageState extends State<HomePage> {
                   crossAxisCount: 3,
                   mainAxisSpacing: 12,
                   crossAxisSpacing: 12,
-                  childAspectRatio: 1.2, // wider than tall, cards less tall
+                  childAspectRatio: 1.2,
                 ),
                 itemBuilder: (context, index) {
                   final song = songs[index];
                   final isStarred = starredSongs.contains(song['id']);
-                  final bgColor = index % 2 == 0 ? vibrantBlue : vibrantGreen;
+
+                  final bgColor =
+                      (index % 2 == 0)
+                          ? mutedOrange
+                          : softBlueGray; // Only 2 colors
 
                   return _HoverableSongCard(
                     song: song,
                     isStarred: isStarred,
                     bgColor: bgColor,
+                    starColor: warmGold,
                     toggleStar: () => _toggleStar(song['id']),
                     onTap: () {
                       Navigator.pushNamed(context, '/music', arguments: song);
@@ -163,6 +163,7 @@ class _HoverableSongCard extends StatefulWidget {
   final Map<String, dynamic> song;
   final bool isStarred;
   final Color bgColor;
+  final Color starColor;
   final VoidCallback toggleStar;
   final VoidCallback onTap;
 
@@ -170,6 +171,7 @@ class _HoverableSongCard extends StatefulWidget {
     required this.song,
     required this.isStarred,
     required this.bgColor,
+    required this.starColor,
     required this.toggleStar,
     required this.onTap,
   });
@@ -189,7 +191,7 @@ class _HoverableSongCardState extends State<_HoverableSongCard> {
       child: GestureDetector(
         onTap: widget.onTap,
         child: AnimatedScale(
-          scale: isHovered ? 1.05 : 1.0, // Scale up a bit on hover
+          scale: isHovered ? 1.05 : 1.0,
           duration: Duration(milliseconds: 200),
           curve: Curves.easeInOut,
           child: AnimatedContainer(
@@ -222,7 +224,7 @@ class _HoverableSongCardState extends State<_HoverableSongCard> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CircleAvatar(
-                  radius: 25, // slightly smaller circle
+                  radius: 25,
                   backgroundImage: AssetImage('assets/${widget.song['image']}'),
                 ),
                 Text(
@@ -244,7 +246,8 @@ class _HoverableSongCardState extends State<_HoverableSongCard> {
                     IconButton(
                       icon: Icon(
                         widget.isStarred ? Icons.star : Icons.star_border,
-                        color: widget.isStarred ? Colors.yellow : Colors.white,
+                        color:
+                            widget.isStarred ? widget.starColor : Colors.white,
                       ),
                       onPressed: widget.toggleStar,
                       iconSize: 18,
