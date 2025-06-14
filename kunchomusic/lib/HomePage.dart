@@ -12,20 +12,23 @@ class _HomePageState extends State<HomePage> {
   String? currentUser;
   String? userAvatarPath;
   List<Map<String, dynamic>> songs = [];
+  List<Map<String, dynamic>> filteredSongs = [];
   List<String> starredSongs = [];
   bool isLoading = true;
+  TextEditingController _searchController = TextEditingController();
 
   final Color backgroundOffWhite = Color(0xFFFDEBD0);
   final Color yellow = Color(0xFFFFF176); // Bright Yellow
   final Color peach = Color(0xFFFFCCBC); // Soft Peach
   final Color warmGold = Color(0xFFFFC107); // Star color
   final Color darkBrown = Color(0xFF4E342E); // AppBar color
-  final Color backgroundColor = Colors.blue;
 
   @override
   void initState() {
     super.initState();
     _initializePage();
+
+    _searchController.addListener(_filterSongs);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ModalRoute.of(context)?.addScopedWillPopCallback(() async {
@@ -47,37 +50,54 @@ class _HomePageState extends State<HomePage> {
       userAvatarPath = avatar;
       isLoading = false;
     });
+
     _loadSongs();
   }
 
-  Future<void> _loadSongs() async {
+  void _filterSongs() {
+    final query = _searchController.text.toLowerCase();
     setState(() {
-      songs = [
-        {
-          'id': '1',
-          'title': 'Twinkle Twinkle Little Star',
-          'artist': 'Kids Songs',
-          'duration': '1:45',
-          'path': 'twinkle.mp3',
-          'image': 'twinkle.jpg',
-        },
-        {
-          'id': '2',
-          'title': 'Old MacDonald',
-          'artist': 'Kids Songs',
-          'duration': '2:10',
-          'path': 'macdonald.mp3',
-          'image': 'farm.jpg',
-        },
-        {
-          'id': '3',
-          'title': 'The Wheels on the Bus',
-          'artist': 'Kids Songs',
-          'duration': '2:30',
-          'path': 'wheels.mp3',
-          'image': 'bus.png',
-        },
-      ];
+      filteredSongs =
+          songs
+              .where(
+                (song) =>
+                    song['title'].toString().toLowerCase().contains(query),
+              )
+              .toList();
+    });
+  }
+
+  Future<void> _loadSongs() async {
+    final loadedSongs = [
+      {
+        'id': '1',
+        'title': 'Twinkle Twinkle Little Star',
+        'artist': 'Kids Songs',
+        'duration': '1:45',
+        'path': 'twinkle.mp3',
+        'image': 'twinkle.jpg',
+      },
+      {
+        'id': '2',
+        'title': 'Old MacDonald',
+        'artist': 'Kids Songs',
+        'duration': '2:10',
+        'path': 'macdonald.mp3',
+        'image': 'farm.jpg',
+      },
+      {
+        'id': '3',
+        'title': 'The Wheels on the Bus',
+        'artist': 'Kids Songs',
+        'duration': '2:30',
+        'path': 'wheels.mp3',
+        'image': 'bus.png',
+      },
+    ];
+
+    setState(() {
+      songs = loadedSongs;
+      filteredSongs = loadedSongs;
     });
   }
 
@@ -95,6 +115,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundOffWhite,
@@ -105,49 +131,74 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: darkBrown,
         onLogout: () async {
           final prefs = await SharedPreferences.getInstance();
-          await prefs.remove('currentUser'); // Clear saved user
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            '/auth',
-            (route) => false,
-          ); // Navigate back to login page
+          await prefs.remove('currentUser');
+          Navigator.pushNamedAndRemoveUntil(context, '/auth', (route) => false);
         },
         actions: [
           IconButton(
             icon: Icon(Icons.star, color: Colors.white),
             tooltip: 'Favorites',
-            onPressed:
-                () => Navigator.pushNamed(
-                  context,
-                  '/favorites',
-                  arguments: {'songs': songs, 'starred': starredSongs},
-                ),
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                '/favorites',
+                arguments: {'songs': songs, 'starred': starredSongs},
+              );
+            },
           ),
         ],
+        onAvatarTap: () async {
+          final updatedAvatar = await Navigator.pushNamed(context, '/profile');
+
+          if (updatedAvatar != null && updatedAvatar is String) {
+            setState(() {
+              userAvatarPath = updatedAvatar;
+            });
+          }
+        },
       ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(12, 40, 12, 12),
-        child: ListView.builder(
-          itemCount: songs.length,
-          itemBuilder: (context, index) {
-            final song = songs[index];
-            final isStarred = starredSongs.contains(song['id']);
-            final bgColor = index % 2 == 0 ? yellow : peach;
+        padding: const EdgeInsets.fromLTRB(12, 20, 12, 12),
+        child: Column(
+          children: [
+            TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                hintText: 'Search songs...',
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                filled: true,
+                fillColor: Colors.white,
+              ),
+            ),
+            SizedBox(height: 20),
+            Expanded(
+              child: ListView.builder(
+                itemCount: filteredSongs.length,
+                itemBuilder: (context, index) {
+                  final song = filteredSongs[index];
+                  final isStarred = starredSongs.contains(song['id']);
+                  final bgColor = index % 2 == 0 ? yellow : peach;
 
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: _HoverableSongCard(
-                song: song,
-                isStarred: isStarred,
-                bgColor: bgColor,
-                starColor: warmGold,
-                toggleStar: () => _toggleStar(song['id']),
-                onTap: () {
-                  Navigator.pushNamed(context, '/music', arguments: song);
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 16.0),
+                    child: _HoverableSongCard(
+                      song: song,
+                      isStarred: isStarred,
+                      bgColor: bgColor,
+                      starColor: warmGold,
+                      toggleStar: () => _toggleStar(song['id']),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/music', arguments: song);
+                      },
+                    ),
+                  );
                 },
               ),
-            );
-          },
+            ),
+          ],
         ),
       ),
     );
