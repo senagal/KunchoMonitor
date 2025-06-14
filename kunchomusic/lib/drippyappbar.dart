@@ -8,6 +8,7 @@ class DrippyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? avatarPath;
   final Color backgroundColor;
   final VoidCallback? onLogout;
+  final VoidCallback? onAvatarTap;
 
   DrippyAppBar({
     required this.title,
@@ -17,6 +18,7 @@ class DrippyAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.avatarPath,
     required this.backgroundColor,
     this.onLogout,
+    this.onAvatarTap,
   });
 
   @override
@@ -70,9 +72,7 @@ class DrippyAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 if (avatarPath != null)
                   GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/profile');
-                    },
+                    onTap: onAvatarTap,
                     child: CircleAvatar(
                       backgroundImage: AssetImage(avatarPath!),
                       radius: 20,

@@ -72,144 +72,150 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Profile')),
-      body:
-          isLoading
-              ? Center(child: CircularProgressIndicator())
-              : Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: CircleAvatar(
-                        radius: 50,
-                        backgroundImage:
-                            selectedAvatarPath != null
-                                ? AssetImage(selectedAvatarPath!)
-                                : null,
-                        child:
-                            selectedAvatarPath == null
-                                ? Icon(Icons.account_circle, size: 60)
-                                : null,
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context, selectedAvatarPath);
+        return false; // prevent default pop since we did it manually
+      },
+      child: Scaffold(
+        appBar: AppBar(title: Text('Profile')),
+        body:
+            isLoading
+                ? Center(child: CircularProgressIndicator())
+                : Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: CircleAvatar(
+                          radius: 50,
+                          backgroundImage:
+                              selectedAvatarPath != null
+                                  ? AssetImage(selectedAvatarPath!)
+                                  : null,
+                          child:
+                              selectedAvatarPath == null
+                                  ? Icon(Icons.account_circle, size: 60)
+                                  : null,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 20),
-                    Center(
-                      child: Text(
-                        currentUser ?? 'Guest',
+                      SizedBox(height: 20),
+                      Center(
+                        child: Text(
+                          currentUser ?? 'Guest',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(height: 20),
+                      Text(
+                        'Choose your Avatar:',
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-
-                    SizedBox(height: 20),
-                    Text(
-                      'Choose your Avatar:',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Wrap(
-                      spacing: 10,
-                      children:
-                          avatarPaths.map((path) {
-                            bool isSelected = selectedAvatarPath == path;
-                            return GestureDetector(
-                              onTap: () async {
-                                final prefs =
-                                    await SharedPreferences.getInstance();
-                                if (currentUser != null) {
-                                  await prefs.setString(
-                                    'avatar_$currentUser',
-                                    path,
-                                  );
-                                }
-                                setState(() {
-                                  selectedAvatarPath = path;
-                                });
-                              },
-                              child: CircleAvatar(
-                                radius: 30,
-                                backgroundImage: AssetImage(path),
-                                child:
-                                    isSelected
-                                        ? Container(
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            border: Border.all(
-                                              color: Colors.purple,
-                                              width: 3,
-                                            ),
-                                          ),
-                                        )
-                                        : null,
-                              ),
-                            );
-                          }).toList(),
-                    ),
-
-                    SizedBox(height: 30),
-                    Text(
-                      'Starred Songs',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Divider(),
-                    Expanded(
-                      child:
-                          starredSongs.isEmpty
-                              ? Center(child: Text('No starred songs yet!'))
-                              : ListView.builder(
-                                itemCount: starredSongs.length,
-                                itemBuilder: (context, index) {
-                                  final songId = starredSongs[index];
-                                  final song = allSongs.firstWhere(
-                                    (s) => s['id'] == songId,
-                                    orElse: () => {'title': 'Unknown Song'},
-                                  );
-                                  return ListTile(
-                                    title: Text(song['title']),
-                                    trailing: IconButton(
-                                      icon: Icon(
-                                        Icons.star,
-                                        color: Colors.amber,
-                                      ),
-                                      onPressed: () async {
-                                        final prefs =
-                                            await SharedPreferences.getInstance();
-                                        setState(() {
-                                          starredSongs.remove(songId);
-                                        });
-                                        await prefs.setStringList(
-                                          'starred_$currentUser',
-                                          starredSongs,
-                                        );
-                                      },
-                                    ),
-                                  );
+                      SizedBox(height: 10),
+                      Wrap(
+                        spacing: 10,
+                        children:
+                            avatarPaths.map((path) {
+                              bool isSelected = selectedAvatarPath == path;
+                              return GestureDetector(
+                                onTap: () async {
+                                  final prefs =
+                                      await SharedPreferences.getInstance();
+                                  if (currentUser != null) {
+                                    await prefs.setString(
+                                      'avatar_$currentUser',
+                                      path,
+                                    );
+                                  }
+                                  setState(() {
+                                    selectedAvatarPath = path;
+                                  });
                                 },
-                              ),
-                    ),
-                    Center(
-                      child: ElevatedButton(
-                        onPressed: _logout,
-                        child: Text('Logout'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
+                                child: CircleAvatar(
+                                  radius: 30,
+                                  backgroundImage: AssetImage(path),
+                                  child:
+                                      isSelected
+                                          ? Container(
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                color: Colors.purple,
+                                                width: 3,
+                                              ),
+                                            ),
+                                          )
+                                          : null,
+                                ),
+                              );
+                            }).toList(),
+                      ),
+
+                      SizedBox(height: 30),
+                      Text(
+                        'Starred Songs',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                  ],
+                      Divider(),
+                      Expanded(
+                        child:
+                            starredSongs.isEmpty
+                                ? Center(child: Text('No starred songs yet!'))
+                                : ListView.builder(
+                                  itemCount: starredSongs.length,
+                                  itemBuilder: (context, index) {
+                                    final songId = starredSongs[index];
+                                    final song = allSongs.firstWhere(
+                                      (s) => s['id'] == songId,
+                                      orElse: () => {'title': 'Unknown Song'},
+                                    );
+                                    return ListTile(
+                                      title: Text(song['title']),
+                                      trailing: IconButton(
+                                        icon: Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                        ),
+                                        onPressed: () async {
+                                          final prefs =
+                                              await SharedPreferences.getInstance();
+                                          setState(() {
+                                            starredSongs.remove(songId);
+                                          });
+                                          await prefs.setStringList(
+                                            'starred_$currentUser',
+                                            starredSongs,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                                ),
+                      ),
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: _logout,
+                          child: Text('Logout'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+      ),
     );
   }
 }
