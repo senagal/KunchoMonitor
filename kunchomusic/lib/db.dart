@@ -33,8 +33,9 @@ Future<String?> getCurrentUser() async {
 }
 
 Future<List<String>> getStarredSongs(String? username) async {
-  final prefs = await SharedPreferences.getInstance();
   if (username == null) return [];
+  final prefs = await SharedPreferences.getInstance();
+  
   return prefs.getStringList('starred_$username') ?? [];
 }
 
