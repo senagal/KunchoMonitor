@@ -32,9 +32,9 @@ class _AuthPageState extends State<AuthPage> {
       } else {
         final existingUser = await getUser(_username);
         if (existingUser != null) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text('Username already exists')));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Username already exists')),
+          );
         } else {
           await insertUser(_username, _password);
           await prefs.setString('currentUser', _username);
@@ -61,7 +61,7 @@ class _AuthPageState extends State<AuthPage> {
         child: Center(
           child: SingleChildScrollView(
             child: Container(
-              width: 350,
+              width: 400, // Widened from 350 to 400
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Card(
@@ -83,21 +83,16 @@ class _AuthPageState extends State<AuthPage> {
                           SizedBox(height: 20),
                           TextFormField(
                             decoration: InputDecoration(labelText: 'Username'),
-                            validator:
-                                (value) =>
-                                    value!.isEmpty
-                                        ? 'Please enter username'
-                                        : null,
+                            validator: (value) =>
+                                value!.isEmpty ? 'Please enter username' : null,
                             onSaved: (value) => _username = value!,
                           ),
                           TextFormField(
                             decoration: InputDecoration(labelText: 'Password'),
                             obscureText: true,
-                            validator:
-                                (value) =>
-                                    value!.length < 4
-                                        ? 'Password must be at least 4 characters'
-                                        : null,
+                            validator: (value) => value!.length < 4
+                                ? 'Password must be at least 4 characters'
+                                : null,
                             onSaved: (value) => _password = value!,
                           ),
                           SizedBox(height: 20),
@@ -110,8 +105,7 @@ class _AuthPageState extends State<AuthPage> {
                           ),
                           TextButton(
                             onPressed: () {
-                              setState(() {
-                                isLogin = !isLogin;
+                              setState(() {isLogin = !isLogin;
                               });
                             },
                             child: Text(
