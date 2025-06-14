@@ -93,22 +93,6 @@ class _HomePageState extends State<HomePage> {
         'path': 'wheels.mp3',
         'image': 'bus.png',
       },
-      {
-        'id': '4',
-        'title': 'Chereka Dumbeloka',
-        'artist': 'Kids Songs',
-        'duration': '2:30',
-        'path': 'Chereka.m4a',
-        'image': 'Chereka.jpeg',
-      },
-      {
-        'id': '5',
-        'title': 'Tsehay fenetekech',
-        'artist': 'Kids Songs',
-        'duration': '2:30',
-        'path': 'Tsehay.m4a',
-        'image': 'Tsehay.png',
-      },
     ];
 
     setState(() {
