@@ -69,10 +69,16 @@ class DrippyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ),
                 if (avatarPath != null)
-                  CircleAvatar(
-                    backgroundImage: AssetImage(avatarPath!),
-                    radius: 20,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/profile');
+                    },
+                    child: CircleAvatar(
+                      backgroundImage: AssetImage(avatarPath!),
+                      radius: 20,
+                    ),
                   ),
+
                 if (actions != null) ...actions!,
                 if (onLogout != null)
                   IconButton(

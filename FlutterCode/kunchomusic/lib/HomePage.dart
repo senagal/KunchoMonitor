@@ -101,6 +101,7 @@ class _HomePageState extends State<HomePage> {
       appBar: DrippyAppBar(
         title: Text('Kuncho'),
         username: currentUser,
+        avatarPath: userAvatarPath,
         backgroundColor: darkBrown,
         onLogout: () async {
           final prefs = await SharedPreferences.getInstance();
@@ -121,19 +122,6 @@ class _HomePageState extends State<HomePage> {
                   '/favorites',
                   arguments: {'songs': songs, 'starred': starredSongs},
                 ),
-          ),
-
-          GestureDetector(
-            onTap: () => Navigator.pushNamed(context, '/profile'),
-            child: Padding(
-              padding: const EdgeInsets.only(right: 12.0),
-              child: CircleAvatar(
-                radius: 18,
-                backgroundImage: AssetImage(
-                  userAvatarPath ?? 'assets/wero.jpg',
-                ),
-              ),
-            ),
           ),
         ],
       ),
