@@ -156,8 +156,9 @@ class _HomePageState extends State<HomePage> {
 
 class _HoverableSongCard extends StatefulWidget {
   final Map<String, dynamic> song;
-  final bool isStarred;
+  
   final Color bgColor;
+  final bool isStarred;
   final Color starColor;
   final VoidCallback toggleStar;
   final VoidCallback onTap;
