@@ -32,9 +32,9 @@ class _AuthPageState extends State<AuthPage> {
       } else {
         final existingUser = await getUser(_username);
         if (existingUser != null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Username already exists')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Username already exists')));
         } else {
           await insertUser(_username, _password);
           await prefs.setString('currentUser', _username);
@@ -46,6 +46,10 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final containerWidth =
+        (screenWidth * 0.85 > 500 ? 500 : screenWidth * 0.85).toDouble();
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -61,7 +65,7 @@ class _AuthPageState extends State<AuthPage> {
         child: Center(
           child: SingleChildScrollView(
             child: Container(
-              width: 400, // Widened from 350 to 400
+              width: containerWidth,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Card(
@@ -83,29 +87,26 @@ class _AuthPageState extends State<AuthPage> {
                           SizedBox(height: 20),
                           TextFormField(
                             decoration: InputDecoration(labelText: 'Username'),
-                            validator: (value) =>
-                                value!.isEmpty ? 'Please enter username' : null,
+                            validator:
+                                (value) =>
+                                    value!.isEmpty
+                                        ? 'Please enter username'
+                                        : null,
                             onSaved: (value) => _username = value!,
                           ),
                           TextFormField(
                             decoration: InputDecoration(labelText: 'Password'),
                             obscureText: true,
-                            validator: (value) => value!.length < 4
-                                ? 'Password must be at least 4 characters'
-                                : null,
+                            validator:
+                                (value) =>
+                                    value!.length < 4
+                                        ? 'Password must be at least 4 characters'
+                                        : null,
                             onSaved: (value) => _password = value!,
                           ),
                           SizedBox(height: 20),
                           ElevatedButton(
-                            onPressed: _submit,
-                            child: Text(isLogin ? 'Login' : 'Sign Up'),
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: Size(double.infinity, 50),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              setState(() {isLogin = !isLogin;
+                            onPressed: _submit,isLogin = !isLogin;
                               });
                             },
                             child: Text(
