@@ -12,6 +12,18 @@ class _ProfilePageState extends State<ProfilePage> {
   List<String> starredSongs = [];
   List<Map<String, dynamic>> allSongs = [];
   bool isLoading = true;
+
+  // Your new avatar images
+  final List<String> avatarPaths = [
+    'assets/wero.jpg',
+    'assets/Abush.png',
+    'assets/birabiro.png',
+    'assets/Bitiko.png',
+    'assets/Mitu.png',
+  ];
+
+  String? selectedAvatarPath;
+
   @override
   void initState() {
     super.initState();
@@ -26,20 +38,23 @@ class _ProfilePageState extends State<ProfilePage> {
         await Hive.isBoxOpen('usersBox')
             ? Hive.box('usersBox')
             : await Hive.openBox('usersBox');
+    final savedAvatar = prefs.getString('avatar_$username');
 
     setState(() {
       if (username != null && box.containsKey(username)) {
         currentUser = username;
         starredSongs = prefs.getStringList('starred_$username') ?? [];
+        selectedAvatarPath = savedAvatar ?? avatarPaths[0]; // default avatar
       } else {
         currentUser = 'Guest';
+        selectedAvatarPath = avatarPaths[0];
       }
       isLoading = false;
     });
   }
 
   Future<void> _loadSongs() async {
-    // summy data for now
+    // dummy data
     setState(() {
       allSongs = [
         {'id': '1', 'title': 'Twinkle Twinkle Little Star'},
@@ -61,9 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(title: Text('Profile')),
       body:
           isLoading
-              ? Center(
-                child: CircularProgressIndicator(),
-              ) // Show loading spinner
+              ? Center(child: CircularProgressIndicator())
               : Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -72,7 +85,14 @@ class _ProfilePageState extends State<ProfilePage> {
                     Center(
                       child: CircleAvatar(
                         radius: 50,
-                        child: Icon(Icons.account_circle, size: 60),
+                        backgroundImage:
+                            selectedAvatarPath != null
+                                ? AssetImage(selectedAvatarPath!)
+                                : null,
+                        child:
+                            selectedAvatarPath == null
+                                ? Icon(Icons.account_circle, size: 60)
+                                : null,
                       ),
                     ),
                     SizedBox(height: 20),
@@ -85,6 +105,55 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                     ),
+
+                    SizedBox(height: 20),
+                    Text(
+                      'Choose your Avatar:',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Wrap(
+                      spacing: 10,
+                      children:
+                          avatarPaths.map((path) {
+                            bool isSelected = selectedAvatarPath == path;
+                            return GestureDetector(
+                              onTap: () async {
+                                final prefs =
+                                    await SharedPreferences.getInstance();
+                                if (currentUser != null) {
+                                  await prefs.setString(
+                                    'avatar_$currentUser',
+                                    path,
+                                  );
+                                }
+                                setState(() {
+                                  selectedAvatarPath = path;
+                                });
+                              },
+                              child: CircleAvatar(
+                                radius: 30,
+                                backgroundImage: AssetImage(path),
+                                child:
+                                    isSelected
+                                        ? Container(
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: Colors.purple,
+                                              width: 3,
+                                            ),
+                                          ),
+                                        )
+                                        : null,
+                              ),
+                            );
+                          }).toList(),
+                    ),
+
                     SizedBox(height: 30),
                     Text(
                       'Starred Songs',

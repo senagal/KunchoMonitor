@@ -9,8 +9,8 @@ import 'ProfilePage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final dir = await getApplicationDocumentsDirectory();
-  await Hive.initFlutter(dir.path);
+
+  await Hive.initFlutter();
 
   await Hive.openBox('usersBox');
 

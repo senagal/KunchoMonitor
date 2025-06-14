@@ -26,9 +26,4 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/twinkle.mp3
-    - assets/macdonald.mp3
-    - assets/wheels.mp3
-    - assets/twinkle.jpg
-    - assets/farm.jpg
-    - assets/bus.png
+    - assets/

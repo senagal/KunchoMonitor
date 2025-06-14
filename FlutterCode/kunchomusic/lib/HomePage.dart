@@ -10,6 +10,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String? currentUser;
+  String? userAvatarPath;
   List<Map<String, dynamic>> songs = [];
   List<String> starredSongs = [];
   bool isLoading = true;
@@ -21,7 +22,17 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _initializePage() async {
-    await _loadUserData();
+    final username = await getCurrentUser();
+    final starred = await getStarredSongs(username);
+    final prefs = await SharedPreferences.getInstance();
+    final avatar = prefs.getString('avatar_$username') ?? 'assets/wero.jpg';
+
+    setState(() {
+      currentUser = username;
+      starredSongs = starred;
+      userAvatarPath = avatar;
+      isLoading = false;
+    });
     _loadSongs();
     setState(() {
       isLoading = false;
@@ -88,9 +99,16 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Kids Music Player'),
         actions: [
-          IconButton(
-            icon: Icon(Icons.account_circle),
-            onPressed: () => Navigator.pushNamed(context, '/profile'),
+          GestureDetector(
+            onTap: () => Navigator.pushNamed(context, '/profile'),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 12.0),
+              child: CircleAvatar(
+                backgroundImage: AssetImage(
+                  userAvatarPath ?? 'assets/wero.jpg',
+                ),
+              ),
+            ),
           ),
         ],
       ),
