@@ -1,20 +1,26 @@
-A beautiful and fully functional Music Player App built using Flutter. This app allows users to play, pause, skip songs, and enjoy a smooth, modern user interface for music playback.
-Getting Started
-Prerequisites
-Flutter SDK: Install Flutter
+🎵 Kuncho Music - Flutter App Module
 
-Android Studio / VS Code
+Kuncho Music is a dedicated module of the **Kuncho** platform, that provides children with fun, educational, and culturally appropriate music experiences.
+✨ Features
 
-Installation
-Clone the repo
-git clone https://github.com/yourusername/flutter-music-player.git
-cd flutter-music-player 
-Install dependencies
+- 🎨 **Child-Friendly Design** – Intuitive, colorful, and easy to navigate.
+- 🎧 **Music Player** – Play, pause, next/previous, and looping controls.
+  Getting Started
 
-bash
-Copy code
-Run the app
-flutter run
+### Prerequisites
 
-Contributing
-Pull requests are welcome! If you’d like to contribute, please fork the repo and use a feature branch. Make sure your code is well structured and documented.
+- [Flutter SDK](https://flutter.dev/docs/get-started/install) (>=3.0.0)
+- Dart SDK
+- Git
+- Emulator or physical Android/iOS device
+
+### Installation
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/senagal/KunchoMusic.git
+   cd Kunchomusic
+   flutter pub get
+   flutter run
+   ```
