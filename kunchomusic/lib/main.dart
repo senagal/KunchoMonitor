@@ -1,7 +1,6 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:path_provider/path_provider.dart';
+
 import 'AuthPage.dart';
 import 'HomePage.dart';
 import 'MusicPlayerPage.dart';
@@ -20,10 +19,12 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Kids Music Player',
+      title: 'Kuncho Kids',
       theme: ThemeData(primarySwatch: Colors.brown, fontFamily: 'ComicNeue'),
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
