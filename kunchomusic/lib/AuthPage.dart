@@ -17,12 +17,10 @@ class _AuthPageState extends State<AuthPage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      final prefs = await SharedPreferences.getInstance();
-
       if (isLogin) {
         final user = await getUser(_username);
         if (user != null && user['password'] == _password) {
-          await prefs.setString('currentUser', _username);
+          await setCurrentUser(_username);
           Navigator.pushReplacementNamed(context, '/home');
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -37,7 +35,7 @@ class _AuthPageState extends State<AuthPage> {
           ).showSnackBar(SnackBar(content: Text('Username already exists')));
         } else {
           await insertUser(_username, _password);
-          await prefs.setString('currentUser', _username);
+          await setCurrentUser(_username);
           Navigator.pushReplacementNamed(context, '/home');
         }
       }

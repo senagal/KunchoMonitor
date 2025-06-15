@@ -18,10 +18,10 @@ class _HomePageState extends State<HomePage> {
   TextEditingController _searchController = TextEditingController();
 
   final Color backgroundOffWhite = Color(0xFFFDEBD0);
-  final Color yellow = Color(0xFFFFF176); // Bright Yellow
-  final Color peach = Color(0xFFFFCCBC); // Soft Peach
-  final Color warmGold = Color(0xFFFFC107); // Star color
-  final Color darkBrown = Color(0xFF4E342E); // AppBar color
+  final Color yellow = Color(0xFFFFF176);
+  final Color peach = Color(0xFFFFCCBC);
+  final Color warmGold = Color(0xFFFFC107);
+  final Color darkBrown = Color(0xFF4E342E);
 
   @override
   void initState() {
@@ -134,7 +134,9 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
-  }@override
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundOffWhite,
@@ -242,7 +244,8 @@ class _HoverableSongCard extends StatefulWidget {
 }
 
 class _HoverableSongCardState extends State<_HoverableSongCard> {
-  bool isHovered = false;@override
+  bool isHovered = false;
+  @override
   Widget build(BuildContext context) {
     return MouseRegion(
       onEnter: (_) => setState(() => isHovered = true),

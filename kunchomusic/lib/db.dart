@@ -1,5 +1,4 @@
 import 'package:hive/hive.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> openHiveBox() async {
   if (!Hive.isBoxOpen('usersBox')) {
@@ -23,23 +22,30 @@ Future<Map<String, String>?> getUser(String username) async {
 }
 
 Future<void> setCurrentUser(String username) async {
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.setString('currentUser', username);
+  await openHiveBox();
+  final box = Hive.box('usersBox');
+  await box.put('currentUser', username);
 }
 
 Future<String?> getCurrentUser() async {
-  final prefs = await SharedPreferences.getInstance();
-  return prefs.getString('currentUser');
+  await openHiveBox();
+  final box = Hive.box('usersBox');
+  String? user = box.get('currentUser');
+  print('Current user loaded from Hive: $user');
+  return user;
 }
 
 Future<List<String>> getStarredSongs(String? username) async {
   if (username == null) return [];
-  final prefs = await SharedPreferences.getInstance();
-  
-  return prefs.getStringList('starred_$username') ?? [];
+  await openHiveBox();
+  final box = Hive.box('usersBox');
+  final List<dynamic>? songs = box.get('starred_$username');
+  if (songs == null) return [];
+  return songs.cast<String>();
 }
 
 Future<void> saveStarredSongs(String username, List<String> songs) async {
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.setStringList('starred_$username', songs);
+  await openHiveBox();
+  final box = Hive.box('usersBox');
+  await box.put('starred_$username', songs);
 }

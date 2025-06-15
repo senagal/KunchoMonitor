@@ -15,13 +15,13 @@ class FavoriteSongsPage extends StatelessWidget {
         songs.where((song) => starred.contains(song['id'])).toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5E6DA), // light beige background
+      backgroundColor: const Color(0xFFF5E6DA),
       appBar: AppBar(
         title: const Text(
           "My Favorites",
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
-        backgroundColor: const Color(0xFF6B3E1A), // dark brown
+        backgroundColor: const Color(0xFF6B3E1A),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: ListView.builder(
@@ -30,7 +30,7 @@ class FavoriteSongsPage extends StatelessWidget {
           final song = favoriteSongs[index];
           return Card(
             margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            color: const Color(0xFFEAD2BC), // soft tan card color
+            color: const Color(0xFFEAD2BC),
             child: ListTile(
               leading: CircleAvatar(
                 backgroundImage: AssetImage('assets/${song['image']}'),
@@ -39,7 +39,7 @@ class FavoriteSongsPage extends StatelessWidget {
               title: Text(
                 song['title'],
                 style: const TextStyle(
-                  color: Color(0xFF6B3E1A), // match AppBar color
+                  color: Color(0xFF6B3E1A),
                   fontWeight: FontWeight.bold,
                 ),
               ),

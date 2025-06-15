@@ -100,11 +100,9 @@ class _DripClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     Path path = Path();
 
-    // Draw rectangle top and sides
     path.lineTo(0, size.height - 20);
 
     // Draw drips at the bottom
-    // Adjust these values to get different drip sizes/spacing
     double dripWidth = size.width / 6;
 
     for (int i = 0; i < 6; i++) {
